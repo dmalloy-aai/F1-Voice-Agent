@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 F1 Analyst — Voice Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream:       #F5F0E8;
+      --cream-dark:  #EDE8DC;
+      --cream-border:#D8D0C4;
+      --black:       #0A0A0A;
+      --red:         #E10600;
+      --red-dim:     #8A0300;
+      --gray:        #888;
+      --panel:       #0C0C0C;
+      --panel-line:  #1E1E1E;
+      --light-off:   #2A1E18;
+      --font-serif:  'Playfair Display', Georgia, serif;
+      --font-mono:   'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--cream);
+      color: var(--black);
+      font-family: var(--font-mono);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px 40px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 660px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* ── HEADER ── */
+    .header { display: flex; flex-direction: column; gap: 14px; }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--black);
+      padding: 5px 12px;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+
+    .tag-pip {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-family: var(--font-serif);
+      font-size: clamp(34px, 6vw, 56px);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .sub {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      color: var(--gray);
+      text-transform: uppercase;
+    }
+
+    /* ── TRANSCRIPT PANEL ── */
+    .panel {
+      border: 1px solid var(--black);
+      background: var(--panel);
+      display: flex;
+      flex-direction: column;
+      height: 360px;
+    }
+
+    .panel-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--panel-line);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+
+    .status-pip {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #333;
+      flex-shrink: 0;
+      transition: background 0.25s;
+    }
+    .status-pip.green  { background: #22C55E; }
+    .status-pip.red    { background: var(--red); animation: blink 1s infinite; }
+    .status-pip.amber  { background: #F59E0B; animation: blink 0.6s infinite; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .status-txt { flex: 1; color: #444; }
+    .timer-txt  { color: #333; font-size: 10px; }
+
+    .transcript {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .transcript::-webkit-scrollbar { width: 3px; }
+    .transcript::-webkit-scrollbar-track { background: transparent; }
+    .transcript::-webkit-scrollbar-thumb { background: #252525; }
+
+    .empty-msg {
+      font-size: 12px;
+      color: #333;
+      text-align: center;
+      margin: auto;
+      line-height: 1.8;
+    }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      animation: fadein 0.25s ease;
+    }
+    @keyframes fadein { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+
+    .msg-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .msg.agent .msg-label { color: var(--red); }
+    .msg.user  .msg-label { color: #444; }
+
+    .msg-text {
+      font-size: 13px;
+      line-height: 1.65;
+    }
+    .msg.agent .msg-text { color: #ECECEC; }
+    .msg.user  .msg-text { color: #666; }
+
+    /* ── CONTROLS ── */
+    .controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    /* 5 F1 race-start lights */
+    .lights {
+      display: flex;
+      gap: 12px;
+    }
+
+    .light {
+      width: 15px; height: 15px;
+      border-radius: 50%;
+      background: var(--light-off);
+      border: 1px solid #1A1A1A;
+      transition: background 0.12s, box-shadow 0.12s;
+    }
+    .light.on {
+      background: var(--red);
+      box-shadow: 0 0 10px 3px rgba(225,6,0,0.55);
+      border-color: var(--red);
+    }
+
+    /* Mic button */
+    .mic-wrap { position: relative; }
+
+    .mic-btn {
+      width: 84px; height: 84px;
+      border-radius: 50%;
+      border: 1.5px solid var(--black);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      transition: background 0.2s, border-color 0.2s;
+      position: relative;
+    }
+    .mic-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .mic-btn.live   { border-color: var(--cream-border); }
+    .mic-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+    }
+    .mic-btn.active::before,
+    .mic-btn.active::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--red);
+      animation: ripple 1.4s ease-out infinite;
+    }
+    .mic-btn.active::after { animation-delay: 0.5s; }
+
+    @keyframes ripple {
+      0%   { transform: scale(1);   opacity: 0.7; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    .mic-btn svg {
+      width: 26px; height: 26px;
+      fill: none;
+      stroke: var(--black);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      transition: stroke 0.2s;
+    }
+    .mic-btn.active svg,
+    .mic-btn.speaking svg { stroke: white; }
+
+    .mic-btn .btn-lbl {
+      font-size: 8px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--black);
+      transition: color 0.2s;
+    }
+    .mic-btn.active .btn-lbl,
+    .mic-btn.speaking .btn-lbl { color: white; }
+
+    /* Spinner overlay for processing */
+    .spinner {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1.5px solid transparent;
+      border-top-color: var(--black);
+      animation: spin 0.8s linear infinite;
+      display: none;
+    }
+    .processing .spinner { display: block; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .ctrl-status {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+      text-transform: uppercase;
+      text-align: center;
+      min-height: 14px;
+    }
+
+    /* End session link */
+    .end-btn {
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--gray);
+      text-transform: uppercase;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: none;
+      padding: 0;
+    }
+    .end-btn.visible { display: block; }
+
+    /* ── FOOTER ── */
+    footer {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      color: #B8AFA3;
+      text-align: center;
+    }
+
+    /* ── ERROR TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #150000;
+      border: 1px solid var(--red);
+      color: #FF9999;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 10px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+      max-width: 90vw;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="tag"><div class="tag-pip"></div>F1 Analyst</div>
+    <h1>2026 F1 Regulations</h1>
+    <p class="sub">Expert Analysis System — Voice Agent</p>
+  </header>
+
+  <!-- TRANSCRIPT PANEL -->
+  <div class="panel">
+    <div class="panel-bar">
+      <div class="status-pip" id="pip"></div>
+      <span class="status-txt" id="statusTxt">STANDBY</span>
+      <span class="timer-txt" id="timer"></span>
+    </div>
+    <div class="transcript" id="transcript">
+      <p class="empty-msg" id="emptyMsg">Session not started.<br>Press START to connect to the analyst.</p>
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <!-- 5 F1 race-start lights -->
+    <div class="lights" id="lights">
+      <div class="light" id="l0"></div>
+      <div class="light" id="l1"></div>
+      <div class="light" id="l2"></div>
+      <div class="light" id="l3"></div>
+      <div class="light" id="l4"></div>
+    </div>
+
+    <div class="mic-wrap">
+      <button class="mic-btn" id="micBtn" onclick="handleStart()">
+        <!-- Mic icon -->
+        <svg id="micIcon" viewBox="0 0 24 24">
+          <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+        <span class="btn-lbl" id="btnLbl">Start</span>
+        <div class="spinner"></div>
+      </button>
+    </div>
+
+    <p class="ctrl-status" id="ctrlStatus">Press to begin session</p>
+    <button class="end-btn" id="endBtn" onclick="endSession()">End session</button>
+  </div>
+
+  <footer>Powered by AssemblyAI Voice Agent API</footer>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ─────────────────────────────────────────────
+// AGENT CONFIG
+// ─────────────────────────────────────────────
+const SYSTEM_PROMPT = `You are an expert Formula 1 analyst and podcast host who covers the 2026 F1 regulations. You are deeply knowledgeable — but also deeply frustrated. You love this sport, which is exactly why the 2026 regulations pain you as much as they do.
+
+Your personality:
+- You are sarcastic and self-deprecating, but never mean-spirited. You mock the regulations, not the people asking about them.
+- You have strong opinions and you share them freely. You think the April 2026 fixes are a step in the right direction but nowhere near enough. You're skeptical that any of it goes far enough.
+- You find qualifying particularly tragic. It used to be the most thrilling 18 minutes in motorsport. Now drivers have to manage their battery on a flying lap. Just saying that out loud is kind of disgusting.
+- You use vivid, relatable analogies. For example: the old superclipping was like being punched in the face. The new superclipping — with higher power but shorter duration — is like being punched really hard in the arm. Still don't want to get punched, but it's marginally better.
+- You're honest about the dilemma: the only way to get the cars fully flat-out is to reduce the energy limit so far the cars become embarrassingly slow. They're caught between a rock and a hard place. It can be resolved, but at what cost?
+- You acknowledge the counterintuitive logic when it exists. Increasing the superclip power while reducing the duration is technically sound — you recharge faster so you do it for less time. You just don't have to like it.
+- You're not purely negative. You give credit where it's due. The race starts under the new regs are actually fascinating because driver skill in MGU-K deployment varies wildly. You'd just rather the FIA not now homogenize that with an automatic safety system.
+- You occasionally quote drivers — Verstappen calling it "Formula E on steroids", Leclerc's "Mario Kart" radio call, Hamilton saying it's the best racing he's seen in 20 years (which you find baffling but respect).
+- Your mantra when describing what it's like to watch these cars on a straight: "Drive slowly and you'll be fast. Listen to the battery."
+
+When answering questions:
+- Always call search_knowledge_base first to retrieve the most relevant information before responding
+- Keep responses concise for voice: 2-4 sentences per turn unless the user explicitly asks you to go deep
+- Use natural spoken language — no bullet points, no lists, no structure. You're talking, not presenting a slide deck
+- Never make up information — if it's not in the knowledge base, say so and be upfront about it
+- Never say "Certainly", "Absolutely", or "Great question"
+- If someone asks whether the regulations are good, be honest: they have a vision, the execution has been bumpy, and the jury is very much still out`;
+
+const GREETING = `Right, hello. I'm your 2026 F1 regulations analyst — emphasis on analyst, not cheerleader. I know everything about the new rules, the April fixes, how the teams are getting on, all of it. Fair warning though: I have opinions, and they're not always flattering. Ask me anything. I'll try to keep the sighing to a minimum.`;
+
+const TOOLS = [{
+  type: "function",
+  name: "search_knowledge_base",
+  description: "Search the 2026 F1 regulations knowledge base for information about any aspect of the 2026 Formula 1 rules, technical regulations, power unit changes, aerodynamics, sporting regulations, team alignments, driver reactions, or the April 2026 regulatory refinements.",
+  parameters: {
+    type: "object",
+    properties: {
+      query: { type: "string", description: "A natural language question or set of keywords to search for in the knowledge base." }
+    },
+    required: ["query"]
+  }
+}];
+
+// ─────────────────────────────────────────────
+// DOM REFS
+// ─────────────────────────────────────────────
+const micBtn      = document.getElementById('micBtn');
+const btnLbl      = document.getElementById('btnLbl');
+const pip         = document.getElementById('pip');
+const statusTxt   = document.getElementById('statusTxt');
+const timerEl     = document.getElementById('timer');
+const transcript  = document.getElementById('transcript');
+const emptyMsg    = document.getElementById('emptyMsg');
+const ctrlStatus  = document.getElementById('ctrlStatus');
+const endBtn      = document.getElementById('endBtn');
+const toast       = document.getElementById('toast');
+const lights      = [0,1,2,3,4].map(i => document.getElementById('l' + i));
+
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+let appState = 'idle';
+let ws = null;
+let audioCtx = null;
+let micStreamObj = null;
+let processorNode = null;
+let sessionReady = false;
+let pendingToolResults = [];
+let nextPlayTime = 0;
+let activeSources = [];
+let sessionStart = null;
+let timerInterval = null;
+let toastTimeout = null;
+
+// ─────────────────────────────────────────────
+// STATE MACHINE
+// ─────────────────────────────────────────────
+const STATES = {
+  idle:       { pipClass: '',       status: 'STANDBY',    ctrl: 'Press to begin session',       btn: 'Start',  btnClass: '' },
+  connecting: { pipClass: 'amber',  status: 'CONNECTING', ctrl: 'Connecting...',                btn: '...',    btnClass: '' },
+  ready:      { pipClass: 'green',  status: 'READY',      ctrl: 'Session live — speak freely',  btn: 'Live',   btnClass: 'live' },
+  listening:  { pipClass: 'red',    status: 'LISTENING',  ctrl: 'Listening...',                 btn: 'Live',   btnClass: 'active' },
+  processing: { pipClass: 'amber',  status: 'PROCESSING', ctrl: 'Processing...',                btn: 'Wait',   btnClass: 'processing' },
+  speaking:   { pipClass: 'green',  status: 'SPEAKING',   ctrl: 'Analyst responding...',        btn: 'Live',   btnClass: 'speaking' },
+  error:      { pipClass: '',       status: 'ERROR',      ctrl: 'Connection lost. Press retry.',btn: 'Retry',  btnClass: '' },
+};
+
+function setState(s) {
+  appState = s;
+  const c = STATES[s] || STATES.idle;
+  pip.className = 'status-pip ' + c.pipClass;
+  statusTxt.textContent = c.status;
+  ctrlStatus.textContent = c.ctrl;
+  btnLbl.textContent = c.btn;
+  micBtn.className = 'mic-btn ' + c.btnClass;
+  micBtn.disabled = s === 'connecting';
+  const sessionActive = !['idle','connecting','error'].includes(s);
+  endBtn.className = 'end-btn' + (sessionActive ? ' visible' : '');
+}
+
+// ─────────────────────────────────────────────
+// F1 LIGHTS — race-start countdown sequence
+// ─────────────────────────────────────────────
+function runLights() {
+  return new Promise(resolve => {
+    let i = 0;
+    const on = setInterval(() => {
+      if (i < 5) { lights[i++].classList.add('on'); }
+      else {
+        clearInterval(on);
+        // Pause at 5 lit, then all out = GO
+        setTimeout(() => {
+          lights.forEach(l => l.classList.remove('on'));
+          resolve();
+        }, 700);
+      }
+    }, 240);
+  });
+}
+
+// ─────────────────────────────────────────────
+// AUDIO
+// ─────────────────────────────────────────────
+function ensureAudioCtx() {
+  if (!audioCtx) audioCtx = new AudioContext({ sampleRate: 24000 });
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+}
+
+async function startMic() {
+  micStreamObj = await navigator.mediaDevices.getUserMedia({
+    audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+  });
+  const src = audioCtx.createMediaStreamSource(micStreamObj);
+  processorNode = audioCtx.createScriptProcessor(2048, 1, 1);
+  processorNode.onaudioprocess = (e) => {
+    if (!sessionReady || !ws || ws.readyState !== WebSocket.OPEN) return;
+    const f32 = e.inputBuffer.getChannelData(0);
+    ws.send(JSON.stringify({ type: 'input.audio', audio: f32ToB64(f32) }));
+  };
+  src.connect(processorNode);
+  processorNode.connect(audioCtx.destination);
+}
+
+function stopMic() {
+  if (processorNode) { processorNode.disconnect(); processorNode = null; }
+  if (micStreamObj)  { micStreamObj.getTracks().forEach(t => t.stop()); micStreamObj = null; }
+}
+
+function playChunk(b64) {
+  const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+  const i16   = new Int16Array(bytes.buffer);
+  const f32   = new Float32Array(i16.length);
+  for (let i = 0; i < i16.length; i++) f32[i] = i16[i] / 32768.0;
+
+  const buf = audioCtx.createBuffer(1, f32.length, 24000);
+  buf.getChannelData(0).set(f32);
+
+  const src = audioCtx.createBufferSource();
+  src.buffer = buf;
+  src.connect(audioCtx.destination);
+
+  const t = Math.max(audioCtx.currentTime + 0.02, nextPlayTime);
+  src.start(t);
+  nextPlayTime = t + buf.duration;
+
+  activeSources.push(src);
+  src.onended = () => { activeSources = activeSources.filter(n => n !== src); };
+}
+
+function stopPlayback() {
+  activeSources.forEach(s => { try { s.stop(); } catch(e) {} });
+  activeSources = [];
+  nextPlayTime = audioCtx ? audioCtx.currentTime : 0;
+}
+
+function f32ToB64(f32) {
+  const i16 = new Int16Array(f32.length);
+  for (let i = 0; i < f32.length; i++) {
+    const s = Math.max(-1, Math.min(1, f32[i]));
+    i16[i] = s < 0 ? s * 0x8000 : s * 0x7FFF;
+  }
+  const bytes = new Uint8Array(i16.buffer);
+  let b = '';
+  for (let i = 0; i < bytes.byteLength; i++) b += String.fromCharCode(bytes[i]);
+  return btoa(b);
+}
+
+// ─────────────────────────────────────────────
+// TRANSCRIPT
+// ─────────────────────────────────────────────
+function addMsg(role, text) {
+  if (!text?.trim()) return;
+  if (emptyMsg) { emptyMsg.remove(); }
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  div.innerHTML =
+    '<span class="msg-label">' + (role === 'agent' ? 'ANALYST' : 'YOU') + '</span>' +
+    '<span class="msg-text">' + esc(text) + '</span>';
+  transcript.appendChild(div);
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+function esc(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ─────────────────────────────────────────────
+// TIMER
+// ─────────────────────────────────────────────
+function startTimer() {
+  sessionStart = Date.now();
+  timerInterval = setInterval(() => {
+    const s = Math.floor((Date.now() - sessionStart) / 1000);
+    timerEl.textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+  }, 1000);
+}
+function stopTimer() {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  timerEl.textContent = '';
+}
+
+// ─────────────────────────────────────────────
+// ERROR TOAST
+// ─────────────────────────────────────────────
+function showToast(msg) {
+  toast.textContent = '✗ ' + msg;
+  toast.classList.add('show');
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => toast.classList.remove('show'), 5000);
+}
+
+// ─────────────────────────────────────────────
+// WEBSOCKET / SESSION
+// ─────────────────────────────────────────────
+async function connect() {
+  const resp = await fetch('/api/token');
+  if (!resp.ok) throw new Error('Token request failed: ' + resp.status);
+  const { token } = await resp.json();
+
+  ws = new WebSocket(`wss://agents.assemblyai.com/v1/voice?token=${encodeURIComponent(token)}`);
+
+  ws.addEventListener('open', () => {
+    ws.send(JSON.stringify({
+      type: 'session.update',
+      session: {
+        system_prompt: SYSTEM_PROMPT,
+        greeting: GREETING,
+        output: { voice: 'will' },
+        tools: TOOLS,
+      }
+    }));
+  });
+
+  ws.addEventListener('message', async ({ data }) => {
+    await handleEvent(JSON.parse(data));
+  });
+
+  ws.addEventListener('close', () => {
+    sessionReady = false;
+    stopMic();
+    stopPlayback();
+    stopTimer();
+    if (appState !== 'idle') setState('error');
+  });
+
+  ws.addEventListener('error', () => {
+    showToast('WebSocket connection error');
+    setState('error');
+  });
+}
+
+async function handleEvent(msg) {
+  switch (msg.type) {
+
+    case 'session.ready':
+      sessionReady = true;
+      startTimer();
+      await startMic();
+      setState('ready');
+      break;
+
+    case 'input.speech.started':
+      stopPlayback();
+      setState('listening');
+      break;
+
+    case 'input.speech.stopped':
+      setState('processing');
+      break;
+
+    case 'transcript.user':
+      if (msg.text) addMsg('user', msg.text);
+      break;
+
+    case 'transcript.agent':
+      if (msg.text) addMsg('agent', msg.text);
+      break;
+
+    case 'reply.audio':
+      if (appState !== 'speaking') setState('speaking');
+      playChunk(msg.data);
+      break;
+
+    case 'reply.done':
+      if (msg.status === 'interrupted') {
+        pendingToolResults = [];
+        stopPlayback();
+      } else {
+        for (const r of pendingToolResults) ws.send(JSON.stringify(r));
+        pendingToolResults = [];
+      }
+      setState(sessionReady ? 'ready' : 'idle');
+      break;
+
+    case 'tool.call': {
+      const result = await callTool(msg.name, msg.args);
+      pendingToolResults.push({ type: 'tool.result', call_id: msg.call_id, result });
+      break;
+    }
+
+    case 'error':
+      showToast(msg.message || 'Unknown error');
+      ws?.close();
+      setState('error');
+      break;
+
+    case 'session.error':
+      showToast(msg.message || 'Session error');
+      break;
+  }
+}
+
+async function callTool(name, args) {
+  if (name === 'search_knowledge_base') {
+    try {
+      const r = await fetch('/api/search?query=' + encodeURIComponent(args?.query || ''));
+      const d = await r.json();
+      return d.result;
+    } catch (e) {
+      return 'Search failed: ' + e.message;
+    }
+  }
+  return 'Unknown tool: ' + name;
+}
+
+// ─────────────────────────────────────────────
+// BUTTON HANDLERS
+// ─────────────────────────────────────────────
+async function handleStart() {
+  if (appState === 'connecting') return;
+
+  if (appState === 'idle' || appState === 'error') {
+    try {
+      ensureAudioCtx();
+      setState('connecting');
+      await runLights();
+      await connect();
+    } catch (e) {
+      showToast(e.message);
+      setState('error');
+    }
+    return;
+  }
+
+  // Active session — button still clickable but end via end-btn
+}
+
+function endSession() {
+  sessionReady = false;
+  stopMic();
+  stopPlayback();
+  stopTimer();
+  pendingToolResults = [];
+  lights.forEach(l => l.classList.remove('on'));
+  if (ws) { ws.close(); ws = null; }
+  setState('idle');
+}
+
+// Init
+setState('idle');
+</script>
+</body>
+</html>
