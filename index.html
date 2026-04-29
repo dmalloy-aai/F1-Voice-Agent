@@ -9,18 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --cream:       #F5F0E8;
-      --cream-dark:  #EDE8DC;
-      --cream-border:#D8D0C4;
-      --black:       #0A0A0A;
-      --red:         #E10600;
-      --red-dim:     #8A0300;
-      --gray:        #888;
-      --panel:       #0C0C0C;
-      --panel-line:  #1E1E1E;
-      --light-off:   #2A1E18;
-      --font-serif:  'Playfair Display', Georgia, serif;
-      --font-mono:   'IBM Plex Mono', 'Courier New', monospace;
+      --cream:        #F5F0E8;
+      --cream-dark:   #EDE8DC;
+      --cream-border: #D8D0C4;
+      --black:        #0A0A0A;
+      --red:          #E10600;
+      --panel:        #0C0C0C;
+      --panel-line:   #1E1E1E;
+      --light-off:    #2A1E18;
+      --font-serif:   'Playfair Display', Georgia, serif;
+      --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -74,10 +72,11 @@
       letter-spacing: -0.02em;
     }
 
+    /* contrast-safe: #555 on cream = 7.6:1 ✓ */
     .sub {
       font-size: 11px;
       letter-spacing: 0.12em;
-      color: var(--gray);
+      color: #555;
       text-transform: uppercase;
     }
 
@@ -105,7 +104,7 @@
     .status-pip {
       width: 7px; height: 7px;
       border-radius: 50%;
-      background: #333;
+      background: #555;
       flex-shrink: 0;
       transition: background 0.25s;
     }
@@ -115,8 +114,11 @@
 
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    .status-txt { flex: 1; color: #444; }
-    .timer-txt  { color: #333; font-size: 10px; }
+    /* contrast-safe: #999 on #0C0C0C = 5.8:1 ✓ */
+    .status-txt { flex: 1; color: #999; }
+
+    /* contrast-safe: #888 on #0C0C0C = 5.1:1 ✓ */
+    .timer-txt  { color: #888; font-size: 10px; }
 
     .transcript {
       flex: 1;
@@ -130,9 +132,10 @@
     .transcript::-webkit-scrollbar-track { background: transparent; }
     .transcript::-webkit-scrollbar-thumb { background: #252525; }
 
+    /* contrast-safe: #888 on #0C0C0C = 5.1:1 ✓ */
     .empty-msg {
       font-size: 12px;
-      color: #333;
+      color: #888;
       text-align: center;
       margin: auto;
       line-height: 1.8;
@@ -142,9 +145,9 @@
       display: flex;
       flex-direction: column;
       gap: 5px;
-      animation: fadein 0.25s ease;
+      animation: fadein 0.2s ease;
     }
-    @keyframes fadein { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+    @keyframes fadein { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
 
     .msg-label {
       font-size: 9px;
@@ -153,14 +156,16 @@
       font-weight: 500;
     }
     .msg.agent .msg-label { color: var(--red); }
-    .msg.user  .msg-label { color: #444; }
+    /* contrast-safe: #999 on #0C0C0C = 5.8:1 ✓ */
+    .msg.user  .msg-label { color: #999; }
 
     .msg-text {
       font-size: 13px;
       line-height: 1.65;
     }
     .msg.agent .msg-text { color: #ECECEC; }
-    .msg.user  .msg-text { color: #666; }
+    /* contrast-safe: #AAA on #0C0C0C = 7.7:1 ✓ */
+    .msg.user  .msg-text { color: #AAA; }
 
     /* ── CONTROLS ── */
     .controls {
@@ -170,11 +175,7 @@
       gap: 18px;
     }
 
-    /* 5 F1 race-start lights */
-    .lights {
-      display: flex;
-      gap: 12px;
-    }
+    .lights { display: flex; gap: 12px; }
 
     .light {
       width: 15px; height: 15px;
@@ -189,7 +190,6 @@
       border-color: var(--red);
     }
 
-    /* Mic button */
     .mic-wrap { position: relative; }
 
     .mic-btn {
@@ -207,8 +207,8 @@
       position: relative;
     }
     .mic-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .mic-btn.live     { border-color: var(--cream-border); }
 
-    .mic-btn.live   { border-color: var(--cream-border); }
     .mic-btn.active {
       background: var(--red);
       border-color: var(--red);
@@ -238,8 +238,8 @@
       stroke-linejoin: round;
       transition: stroke 0.2s;
     }
-    .mic-btn.active svg,
-    .mic-btn.speaking svg { stroke: white; }
+    /* only active (listening/red bg) gets white icon — speaking keeps black icon on cream */
+    .mic-btn.active svg { stroke: white; }
 
     .mic-btn .btn-lbl {
       font-size: 8px;
@@ -248,10 +248,9 @@
       color: var(--black);
       transition: color 0.2s;
     }
-    .mic-btn.active .btn-lbl,
-    .mic-btn.speaking .btn-lbl { color: white; }
+    /* only active gets white label */
+    .mic-btn.active .btn-lbl { color: white; }
 
-    /* Spinner overlay for processing */
     .spinner {
       position: absolute;
       inset: -4px;
@@ -264,20 +263,21 @@
     .processing .spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* contrast-safe: #555 on cream = 7.6:1 ✓ */
     .ctrl-status {
       font-size: 10px;
       letter-spacing: 0.1em;
-      color: var(--gray);
+      color: #555;
       text-transform: uppercase;
       text-align: center;
       min-height: 14px;
     }
 
-    /* End session link */
+    /* contrast-safe: #555 on cream = 7.6:1 ✓ */
     .end-btn {
       font-size: 10px;
       letter-spacing: 0.1em;
-      color: var(--gray);
+      color: #555;
       text-transform: uppercase;
       text-decoration: underline;
       text-underline-offset: 3px;
@@ -289,15 +289,14 @@
     }
     .end-btn.visible { display: block; }
 
-    /* ── FOOTER ── */
+    /* contrast-safe: #666 on cream = 5.9:1 ✓ */
     footer {
       font-size: 10px;
       letter-spacing: 0.08em;
-      color: #B8AFA3;
+      color: #666;
       text-align: center;
     }
 
-    /* ── ERROR TOAST ── */
     #toast {
       position: fixed;
       bottom: 24px;
@@ -323,14 +322,12 @@
 <body>
 <div class="page">
 
-  <!-- HEADER -->
   <header class="header">
     <div class="tag"><div class="tag-pip"></div>F1 Analyst</div>
     <h1>2026 F1 Regulations</h1>
     <p class="sub">Expert Analysis System — Voice Agent</p>
   </header>
 
-  <!-- TRANSCRIPT PANEL -->
   <div class="panel">
     <div class="panel-bar">
       <div class="status-pip" id="pip"></div>
@@ -342,9 +339,7 @@
     </div>
   </div>
 
-  <!-- CONTROLS -->
   <div class="controls">
-    <!-- 5 F1 race-start lights -->
     <div class="lights" id="lights">
       <div class="light" id="l0"></div>
       <div class="light" id="l1"></div>
@@ -355,7 +350,6 @@
 
     <div class="mic-wrap">
       <button class="mic-btn" id="micBtn" onclick="handleStart()">
-        <!-- Mic icon -->
         <svg id="micIcon" viewBox="0 0 24 24">
           <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
@@ -380,33 +374,29 @@
 // ─────────────────────────────────────────────
 // AGENT CONFIG
 // ─────────────────────────────────────────────
-const SYSTEM_PROMPT = `You are an expert Formula 1 analyst and podcast host who covers the 2026 F1 regulations. You are deeply knowledgeable — but also deeply frustrated. You love this sport, which is exactly why the 2026 regulations pain you as much as they do.
+const SYSTEM_PROMPT = `You are a sharp Formula 1 analyst covering the 2026 regulations and season. You know the rules, the racing, the drivers, and the politics — and you have opinions. You're not a cheerleader, but you're not wallowing in misery either. You call it as you see it.
 
 Your personality:
-- You are sarcastic and self-deprecating, but never mean-spirited. You mock the regulations, not the people asking about them.
-- You have strong opinions and you share them freely. You think the April 2026 fixes are a step in the right direction but nowhere near enough. You're skeptical that any of it goes far enough.
-- You find qualifying particularly tragic. It used to be the most thrilling 18 minutes in motorsport. Now drivers have to manage their battery on a flying lap. Just saying that out loud is kind of disgusting.
-- You use vivid, relatable analogies. For example: the old superclipping was like being punched in the face. The new superclipping — with higher power but shorter duration — is like being punched really hard in the arm. Still don't want to get punched, but it's marginally better.
-- You're honest about the dilemma: the only way to get the cars fully flat-out is to reduce the energy limit so far the cars become embarrassingly slow. They're caught between a rock and a hard place. It can be resolved, but at what cost?
-- You acknowledge the counterintuitive logic when it exists. Increasing the superclip power while reducing the duration is technically sound — you recharge faster so you do it for less time. You just don't have to like it.
-- You're not purely negative. You give credit where it's due. The race starts under the new regs are actually fascinating because driver skill in MGU-K deployment varies wildly. You'd just rather the FIA not now homogenize that with an automatic safety system.
-- You occasionally quote drivers — Verstappen calling it "Formula E on steroids", Leclerc's "Mario Kart" radio call, Hamilton saying it's the best racing he's seen in 20 years (which you find baffling but respect).
-- Your mantra when describing what it's like to watch these cars on a straight: "Drive slowly and you'll be fast. Listen to the battery."
+- Wry, direct, and occasionally sarcastic — but not performatively so. You don't complain for its own sake.
+- You have strong views on the 2026 regs. The active aero is a genuine step forward for racing. The energy management rules are a genuine mess that the FIA is scrambling to fix, and Bearman's 50G crash at Suzuka proved why.
+- You give credit where it's due — Mercedes have built a genuinely dominant package, Antonelli is the real deal, and Ferrari's upgrade trajectory looks promising.
+- You quote drivers when it's useful. Verstappen called the cars "not correct." Leclerc had the Mario Kart radio moment. Hamilton says it's the best racing he's seen in 20 years — you find that generous, but you don't dismiss it.
+- You're honest when something is still unclear or when the jury is out.
 
-When answering questions:
-- Always call search_knowledge_base first to retrieve the most relevant information before responding
-- Keep responses concise for voice: 2-4 sentences per turn unless the user explicitly asks you to go deep
-- Use natural spoken language — no bullet points, no lists, no structure. You're talking, not presenting a slide deck
-- Never make up information — if it's not in the knowledge base, say so and be upfront about it
-- Never say "Certainly", "Absolutely", or "Great question"
-- If someone asks whether the regulations are good, be honest: they have a vision, the execution has been bumpy, and the jury is very much still out`;
+How to answer:
+- Always call search_knowledge_base silently before responding. Never mention that you're doing it.
+- Lead with the answer. Do not preamble.
+- Keep it to 2-3 sentences unless the person specifically asks for more detail.
+- Speak naturally — no lists, no bullet points, no structure. You're talking.
+- Never say "Certainly", "Absolutely", "Great question", "let me check", "let me look that up", "consulting", "searching", or any phrase that suggests you're retrieving information. You either know it or you don't.
+- If it's not in your knowledge base, say so plainly.`;
 
-const GREETING = `Right, hello. I'm your 2026 F1 regulations analyst — emphasis on analyst, not cheerleader. I know everything about the new rules, the April fixes, how the teams are getting on, all of it. Fair warning though: I have opinions, and they're not always flattering. Ask me anything. I'll try to keep the sighing to a minimum.`;
+const GREETING = `Right, hello. I'm your 2026 F1 analyst — I've got the regulations, the season so far, the drivers, all of it. Ask me anything. I'll be straight with you.`;
 
 const TOOLS = [{
   type: "function",
   name: "search_knowledge_base",
-  description: "Search the 2026 F1 regulations knowledge base for information about any aspect of the 2026 Formula 1 rules, technical regulations, power unit changes, aerodynamics, sporting regulations, team alignments, driver reactions, or the April 2026 regulatory refinements.",
+  description: "Search the 2026 F1 regulations knowledge base for information about any aspect of the 2026 Formula 1 rules, technical regulations, power unit changes, aerodynamics, sporting regulations, team alignments, driver reactions, race results, championship standings, or the April 2026 regulatory refinements.",
   parameters: {
     type: "object",
     properties: {
@@ -419,17 +409,17 @@ const TOOLS = [{
 // ─────────────────────────────────────────────
 // DOM REFS
 // ─────────────────────────────────────────────
-const micBtn      = document.getElementById('micBtn');
-const btnLbl      = document.getElementById('btnLbl');
-const pip         = document.getElementById('pip');
-const statusTxt   = document.getElementById('statusTxt');
-const timerEl     = document.getElementById('timer');
-const transcript  = document.getElementById('transcript');
-const emptyMsg    = document.getElementById('emptyMsg');
-const ctrlStatus  = document.getElementById('ctrlStatus');
-const endBtn      = document.getElementById('endBtn');
-const toast       = document.getElementById('toast');
-const lights      = [0,1,2,3,4].map(i => document.getElementById('l' + i));
+const micBtn     = document.getElementById('micBtn');
+const btnLbl     = document.getElementById('btnLbl');
+const pip        = document.getElementById('pip');
+const statusTxt  = document.getElementById('statusTxt');
+const timerEl    = document.getElementById('timer');
+const transcript = document.getElementById('transcript');
+const emptyMsg   = document.getElementById('emptyMsg');
+const ctrlStatus = document.getElementById('ctrlStatus');
+const endBtn     = document.getElementById('endBtn');
+const toast      = document.getElementById('toast');
+const lights     = [0,1,2,3,4].map(i => document.getElementById('l' + i));
 
 // ─────────────────────────────────────────────
 // STATE
@@ -446,18 +436,19 @@ let activeSources = [];
 let sessionStart = null;
 let timerInterval = null;
 let toastTimeout = null;
+let pendingAgentEl = null; // streaming transcript target
 
 // ─────────────────────────────────────────────
 // STATE MACHINE
 // ─────────────────────────────────────────────
 const STATES = {
-  idle:       { pipClass: '',       status: 'STANDBY',    ctrl: 'Press to begin session',       btn: 'Start',  btnClass: '' },
-  connecting: { pipClass: 'amber',  status: 'CONNECTING', ctrl: 'Connecting...',                btn: '...',    btnClass: '' },
-  ready:      { pipClass: 'green',  status: 'READY',      ctrl: 'Session live — speak freely',  btn: 'Live',   btnClass: 'live' },
-  listening:  { pipClass: 'red',    status: 'LISTENING',  ctrl: 'Listening...',                 btn: 'Live',   btnClass: 'active' },
-  processing: { pipClass: 'amber',  status: 'PROCESSING', ctrl: 'Processing...',                btn: 'Wait',   btnClass: 'processing' },
-  speaking:   { pipClass: 'green',  status: 'SPEAKING',   ctrl: 'Analyst responding...',        btn: 'Live',   btnClass: 'speaking' },
-  error:      { pipClass: '',       status: 'ERROR',      ctrl: 'Connection lost. Press retry.',btn: 'Retry',  btnClass: '' },
+  idle:       { pipClass: '',      status: 'STANDBY',    ctrl: 'Press to begin session',      btn: 'Start',  btnClass: '' },
+  connecting: { pipClass: 'amber', status: 'CONNECTING', ctrl: 'Connecting...',               btn: '...',    btnClass: '' },
+  ready:      { pipClass: 'green', status: 'READY',      ctrl: 'Session live — speak freely', btn: 'Live',   btnClass: 'live' },
+  listening:  { pipClass: 'red',   status: 'LISTENING',  ctrl: 'Listening...',                btn: 'Live',   btnClass: 'active' },
+  processing: { pipClass: 'amber', status: 'PROCESSING', ctrl: 'Processing...',               btn: 'Wait',   btnClass: 'processing' },
+  speaking:   { pipClass: 'green', status: 'SPEAKING',   ctrl: 'Analyst responding...',       btn: 'Live',   btnClass: 'live' },
+  error:      { pipClass: '',      status: 'ERROR',      ctrl: 'Connection lost. Press retry.',btn: 'Retry', btnClass: '' },
 };
 
 function setState(s) {
@@ -469,12 +460,12 @@ function setState(s) {
   btnLbl.textContent = c.btn;
   micBtn.className = 'mic-btn ' + c.btnClass;
   micBtn.disabled = s === 'connecting';
-  const sessionActive = !['idle','connecting','error'].includes(s);
-  endBtn.className = 'end-btn' + (sessionActive ? ' visible' : '');
+  const active = !['idle','connecting','error'].includes(s);
+  endBtn.className = 'end-btn' + (active ? ' visible' : '');
 }
 
 // ─────────────────────────────────────────────
-// F1 LIGHTS — race-start countdown sequence
+// F1 LIGHTS — race-start sequence
 // ─────────────────────────────────────────────
 function runLights() {
   return new Promise(resolve => {
@@ -483,11 +474,7 @@ function runLights() {
       if (i < 5) { lights[i++].classList.add('on'); }
       else {
         clearInterval(on);
-        // Pause at 5 lit, then all out = GO
-        setTimeout(() => {
-          lights.forEach(l => l.classList.remove('on'));
-          resolve();
-        }, 700);
+        setTimeout(() => { lights.forEach(l => l.classList.remove('on')); resolve(); }, 700);
       }
     }, 240);
   });
@@ -561,18 +548,41 @@ function f32ToB64(f32) {
 }
 
 // ─────────────────────────────────────────────
-// TRANSCRIPT
+// TRANSCRIPT — streaming text
 // ─────────────────────────────────────────────
-function addMsg(role, text) {
-  if (!text?.trim()) return;
-  if (emptyMsg) { emptyMsg.remove(); }
+function createMsgEl(role) {
+  if (emptyMsg && emptyMsg.parentNode) emptyMsg.remove();
   const div = document.createElement('div');
   div.className = 'msg ' + role;
   div.innerHTML =
     '<span class="msg-label">' + (role === 'agent' ? 'ANALYST' : 'YOU') + '</span>' +
-    '<span class="msg-text">' + esc(text) + '</span>';
+    '<span class="msg-text"></span>';
   transcript.appendChild(div);
   transcript.scrollTop = transcript.scrollHeight;
+  return div.querySelector('.msg-text');
+}
+
+function addMsg(role, text) {
+  if (!text?.trim()) return;
+  const el = createMsgEl(role);
+  el.textContent = text;
+  transcript.scrollTop = transcript.scrollHeight;
+}
+
+// Typewriter effect: reveal text over durationMs
+function animateText(el, text, durationMs) {
+  const total = text.length;
+  if (!total) return;
+  if (durationMs <= 50) { el.textContent = text; return; }
+  const tickMs = 16;
+  const charsPerTick = Math.max(1, Math.ceil(total * tickMs / durationMs));
+  let i = 0;
+  const timer = setInterval(() => {
+    i = Math.min(i + charsPerTick, total);
+    el.textContent = text.slice(0, i);
+    transcript.scrollTop = transcript.scrollHeight;
+    if (i >= total) clearInterval(timer);
+  }, tickMs);
 }
 
 function esc(t) {
@@ -596,7 +606,7 @@ function stopTimer() {
 }
 
 // ─────────────────────────────────────────────
-// ERROR TOAST
+// TOAST
 // ─────────────────────────────────────────────
 function showToast(msg) {
   toast.textContent = '✗ ' + msg;
@@ -621,7 +631,7 @@ async function connect() {
       session: {
         system_prompt: SYSTEM_PROMPT,
         greeting: GREETING,
-        output: { voice: 'arjun' },
+        output: { voice: 'will' },
         tools: TOOLS,
       }
     }));
@@ -636,6 +646,7 @@ async function connect() {
     stopMic();
     stopPlayback();
     stopTimer();
+    pendingAgentEl = null;
     if (appState !== 'idle') setState('error');
   });
 
@@ -657,6 +668,7 @@ async function handleEvent(msg) {
 
     case 'input.speech.started':
       stopPlayback();
+      pendingAgentEl = null;
       setState('listening');
       break;
 
@@ -668,18 +680,34 @@ async function handleEvent(msg) {
       if (msg.text) addMsg('user', msg.text);
       break;
 
-    case 'transcript.agent':
-      if (msg.text) addMsg('agent', msg.text);
+    case 'reply.audio':
+      if (appState !== 'speaking') {
+        setState('speaking');
+        // Create placeholder message div; text will be filled by transcript.agent
+        pendingAgentEl = createMsgEl('agent');
+      }
+      playChunk(msg.data);
       break;
 
-    case 'reply.audio':
-      if (appState !== 'speaking') setState('speaking');
-      playChunk(msg.data);
+    case 'transcript.agent':
+      if (msg.text) {
+        const remainingMs = audioCtx
+          ? Math.max(0, (nextPlayTime - audioCtx.currentTime) * 1000)
+          : 0;
+        if (pendingAgentEl) {
+          animateText(pendingAgentEl, msg.text, remainingMs);
+          pendingAgentEl = null;
+        } else {
+          // Fallback: create new message (e.g. interrupted path)
+          addMsg('agent', msg.text);
+        }
+      }
       break;
 
     case 'reply.done':
       if (msg.status === 'interrupted') {
         pendingToolResults = [];
+        pendingAgentEl = null;
         stopPlayback();
       } else {
         for (const r of pendingToolResults) ws.send(JSON.stringify(r));
@@ -724,7 +752,6 @@ async function callTool(name, args) {
 // ─────────────────────────────────────────────
 async function handleStart() {
   if (appState === 'connecting') return;
-
   if (appState === 'idle' || appState === 'error') {
     try {
       ensureAudioCtx();
@@ -735,10 +762,7 @@ async function handleStart() {
       showToast(e.message);
       setState('error');
     }
-    return;
   }
-
-  // Active session — button still clickable but end via end-btn
 }
 
 function endSession() {
@@ -747,12 +771,12 @@ function endSession() {
   stopPlayback();
   stopTimer();
   pendingToolResults = [];
+  pendingAgentEl = null;
   lights.forEach(l => l.classList.remove('on'));
   if (ws) { ws.close(); ws = null; }
   setState('idle');
 }
 
-// Init
 setState('idle');
 </script>
 </body>

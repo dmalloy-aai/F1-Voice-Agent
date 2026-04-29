@@ -531,3 +531,262 @@ Most expert opinion as of April 2026 falls into a cautious middle ground: the 20
 - Motorsport Week — Refinements announced, changes explained
 - Planet F1 — PU suppliers, Miami changes
 - The-Race.com — 2026 team weaknesses, early season issues
+
+---
+
+## 2026 Season — Driver & Team Lineup {#lineup}
+
+| Team | Car | Engine | Driver 1 | # | Driver 2 | # |
+|---|---|---|---|---|---|---|
+| Mercedes-AMG Petronas | W17 | Mercedes | George Russell | 63 | Kimi Antonelli | 12 |
+| Scuderia Ferrari | SF-26 | Ferrari | Charles Leclerc | 16 | Lewis Hamilton | 44 |
+| McLaren F1 Team | MCL40 | Mercedes | Lando Norris | 4 | Oscar Piastri | 81 |
+| Oracle Red Bull Racing | RB22 | Ford/Red Bull | Max Verstappen | 33 | Isack Hadjar | 6 |
+| Aston Martin Aramco | AMR26 | Honda | Fernando Alonso | 14 | Lance Stroll | 18 |
+| BWT Alpine F1 Team | A526 | Mercedes | Pierre Gasly | 10 | Franco Colapinto | 43 |
+| Atlassian Williams Racing | FW48 | Mercedes | Alexander Albon | 23 | Carlos Sainz Jr. | 55 |
+| MoneyGram Haas F1 Team | VF-26 | Ferrari | Esteban Ocon | 31 | Oliver Bearman | 87 |
+| Visa Cash App Racing Bulls | VCARB 03 | Ford/Red Bull | Liam Lawson | 30 | Arvid Lindblad | 5 |
+| Cadillac F1 Team | MAC-26 | Ferrari | Sergio Pérez | 11 | Valtteri Bottas | 77 |
+| Audi F1 Team | R26 | Audi | Nico Hülkenberg | 27 | Gabriel Bortoleto | 5 |
+
+**Key entry notes:**
+- Cadillac is the 11th team — first new constructor since 2016. MAC-26 named after Mario Andretti Cadillac.
+- Audi entered as a full works team after acquiring Sauber; the R26 runs Audi's own power unit.
+- Verstappen reverted to #33 after losing #1 to 2025 champion Lando Norris.
+- Ford returned to F1 for the first time since 2004, supporting Red Bull Powertrains.
+- Honda entered an exclusive works agreement with Aston Martin.
+- Alpine switched from Renault to Mercedes power units for 2026.
+
+---
+
+## 2026 Season — Race Calendar {#calendar}
+
+Original 24-race calendar reduced to 22 after Bahrain and Saudi Arabia were cancelled due to the 2026 Iran–Gulf conflict.
+
+| Rd | Grand Prix | Circuit | Date | Status |
+|---|---|---|---|---|
+| 1 | Australian GP | Albert Park, Melbourne | March 8 | Completed |
+| 2 | Chinese GP | Shanghai | March 15 | Completed (Sprint) |
+| 3 | Japanese GP | Suzuka | March 29 | Completed |
+| — | Bahrain GP | — | April 12 | CANCELLED |
+| — | Saudi Arabian GP | — | April 19 | CANCELLED |
+| 4 | Miami GP | Miami International Autodrome | May 3 | Upcoming (Sprint) |
+| 5 | Canadian GP | Circuit Gilles Villeneuve | May 24 | Sprint |
+| 6 | Monaco GP | Circuit de Monaco | June 7 | — |
+| 7 | Spanish GP | Barcelona | June 14 | — |
+| 8 | Austrian GP | Red Bull Ring | June 28 | — |
+| 9 | British GP | Silverstone | July 5 | Sprint |
+| 10 | Belgian GP | Spa-Francorchamps | July 19 | — |
+| 11 | Hungarian GP | Hungaroring | July 26 | — |
+| 12 | Dutch GP | Zandvoort | August 23 | Sprint |
+| 13 | Italian GP | Monza | September 6 | — |
+| 14 | Spanish GP (Madrid) | Madrid Street Circuit | September 13 | DEBUT |
+| 15 | Azerbaijan GP | Baku City Circuit | September 26 | — |
+| 16 | Singapore GP | Marina Bay | October 11 | Sprint |
+| 17 | United States GP | COTA, Austin | October 25 | — |
+| 18 | Mexico City GP | Autódromo Hermanos Rodríguez | November 1 | — |
+| 19 | São Paulo GP | Interlagos | November 8 | — |
+| 20 | Las Vegas GP | Las Vegas Strip Circuit | November 21 | — |
+| 21 | Qatar GP | Lusail | November 29 | — |
+| 22 | Abu Dhabi GP | Yas Marina | December 6 | — |
+
+---
+
+## 2026 Season — Race Results {#results}
+
+### Round 1 — Australian Grand Prix (March 8, Albert Park)
+
+**Pole:** George Russell (Mercedes) — 1:18.518
+
+| Pos | Driver | Team | Gap |
+|---|---|---|---|
+| 1 | George Russell | Mercedes | 1:23:06.801 |
+| 2 | Kimi Antonelli | Mercedes | +2.974s |
+| 3 | Charles Leclerc | Ferrari | +15.519s |
+| 4 | Lewis Hamilton | Ferrari | +16.144s |
+| 5 | Lando Norris | McLaren | +51.741s |
+| 6 | Max Verstappen | Red Bull | +54.617s |
+| 7 | Oliver Bearman | Haas | +1 Lap |
+| 8 | Arvid Lindblad | Racing Bulls | +1 Lap |
+| 9 | Gabriel Bortoleto | Audi | +1 Lap |
+| 10 | Pierre Gasly | Alpine | +1 Lap |
+| DNF | Fernando Alonso | Aston Martin | Lap 21 — vibrations |
+| DNS | Oscar Piastri | McLaren | Reconnaissance lap crash — unexpected MGU-K power surge |
+| DNS | Nico Hülkenberg | Audi | Hydraulic failure before start |
+
+**Fastest Lap:** Max Verstappen (Red Bull) — 1:21.980
+
+**Key events:** Mercedes 1-2; Verstappen started last after crashing on his first Q1 flying lap (rear wheels locked under braking). Three VSC periods. Audi scored points on debut (Bortoleto P9). First Mercedes 1-2 since Las Vegas 2024. Piastri DNS after crashing on the out-lap from an unexpected power surge from the new MGU-K.
+
+---
+
+### Round 2 — Chinese Grand Prix (March 15, Shanghai) — Sprint Weekend
+
+**Sprint pole:** Kimi Antonelli | **GP pole:** Kimi Antonelli — 1:32.064
+
+**Sprint Race Result:** 1. Russell, 2. Leclerc (+0.674s), 3. Hamilton (+2.554s), 4. Norris, 5. Antonelli (10s penalty for Lap 1 collision with Hadjar)
+
+**Grand Prix:**
+
+| Pos | Driver | Team | Gap |
+|---|---|---|---|
+| 1 | Kimi Antonelli | Mercedes | Winner |
+| 2 | George Russell | Mercedes | +5.515s |
+| 3 | Lewis Hamilton | Ferrari | +25.267s |
+| 4 | Charles Leclerc | Ferrari | — |
+| DNS | Lando Norris | McLaren | Battery failure (ICE/hybrid comms) |
+| DNS | Oscar Piastri | McLaren | Failed to restart on grid — separate battery fault |
+
+**Fastest Lap:** Kimi Antonelli — 1:35.275
+
+**Key events:** McLaren suffered catastrophic double DNS — two separate Mercedes HPP battery failures, distinct in nature. First time in Norris's 8-season career he missed a race start. Hamilton finished P3 — his first podium in Ferrari colours after a 477-day wait. Antonelli (19 years, 202 days) became the youngest F1 pole-sitter in history (breaking Vettel's 2008 record) and second-youngest grand prix winner in history. First Italian to win a grand prix since Fisichella at the 2006 Malaysian GP.
+
+---
+
+### Round 3 — Japanese Grand Prix (March 29, Suzuka)
+
+**Pole:** Kimi Antonelli
+
+| Pos | Driver | Team | Gap |
+|---|---|---|---|
+| 1 | Kimi Antonelli | Mercedes | Winner |
+| 2 | Oscar Piastri | McLaren | +13.722s |
+| 3 | Charles Leclerc | Ferrari | +15.270s |
+| 4 | George Russell | Mercedes | +15.754s |
+| 5 | Lando Norris | McLaren | +23.479s |
+| 6 | Lewis Hamilton | Ferrari | +25.037s |
+| 7 | Pierre Gasly | Alpine | +32.340s |
+| 8 | Max Verstappen | Red Bull | +32.677s |
+| 9 | Liam Lawson | Racing Bulls | +50.180s |
+| 10 | Esteban Ocon | Haas | +51.216s |
+| DNF | Oliver Bearman | Haas | Lap 20 — 50G crash at Spoon Curve |
+| DNF | Lance Stroll | Aston Martin | Lap 30 — water pressure failure |
+
+**Fastest Lap:** Kimi Antonelli — 1:32.432 (Lap 49)
+
+**Key events:** Bearman's 50G crash at Spoon Curve — he encountered Colapinto's Alpine with a ~50 km/h speed differential due to one car deploying MGU-K boost and the other harvesting. Bearman was pushed onto the grass at ~190 mph. He walked away unhurt. Verstappen started P20 (another qualifying incident) and recovered to P8. Safety car deployed Lap 20 after Bearman crash; Antonelli pitted and retained lead. Antonelli became first teenager to win back-to-back F1 races and youngest championship leader in history at 19 years, 216 days. Italy's first championship leader since Ascari in 1953.
+
+---
+
+## 2026 Season — Championship Standings {#standings}
+
+*After Round 3 — Japanese Grand Prix*
+
+### Drivers' Championship
+
+| Pos | Driver | Team | Points |
+|---|---|---|---|
+| 1 | Kimi Antonelli | Mercedes | 72 |
+| 2 | George Russell | Mercedes | 63 |
+| 3 | Charles Leclerc | Ferrari | 49 |
+| 4 | Lewis Hamilton | Ferrari | 41 |
+| 5 | Lando Norris | McLaren | 25 |
+| 6 | Oscar Piastri | McLaren | 21 |
+| 7 | Oliver Bearman | Haas | 17 |
+| 8 | Pierre Gasly | Alpine | 15 |
+| 9 | Max Verstappen | Red Bull | 12 |
+| 10 | Liam Lawson | Racing Bulls | 10 |
+| 11 | Arvid Lindblad | Racing Bulls | 4 |
+| 12 | Isack Hadjar | Red Bull | 4 |
+| 13 | Gabriel Bortoleto | Audi | 2 |
+| 14 | Carlos Sainz | Williams | 2 |
+| 15 | Esteban Ocon | Haas | 1 |
+| 16 | Franco Colapinto | Alpine | 1 |
+| — | Pérez, Bottas, Albon, Alonso, Stroll, Hülkenberg | — | 0 |
+
+### Constructors' Championship
+
+| Pos | Team | Points |
+|---|---|---|
+| 1 | Mercedes | 135 |
+| 2 | Ferrari | 90 |
+| 3 | McLaren | 46 |
+| 4 | Haas | 18 |
+| 5 | Alpine | 16 |
+| 6 | Red Bull | 16 |
+| 7 | Racing Bulls | 14 |
+| 8 | Audi | 2 |
+| 9 | Williams | 2 |
+| 10 | Cadillac | 0 |
+| 11 | Aston Martin | 0 |
+
+---
+
+## 2026 Season — Key Incidents & Storylines {#incidents}
+
+### The Bearman/Colapinto Speed Differential Crash (Japan, Lap 20)
+The defining safety incident of the early season. The 2026 power units require drivers to alternate between "deployment" (full MGU-K boost) and "harvesting" (energy recovery, causing significant deceleration). At Suzuka's Spoon Curve, Bearman (deploying) encountered Colapinto's Alpine (harvesting) at a closing speed of ~50 km/h. Bearman was pushed onto the grass at ~190 mph and hit barriers at 50G. He walked away unhurt. Drivers had formally warned FIA stewards about this issue the Friday before the race. Verstappen post-race: "These cars are not correct. It's super frustrating. You have absolutely no idea what the guy in front is doing at any given moment." Toto Wolff: "This cannot happen again." FIA held emergency meetings April 9, 15, 16, 20; result: MGU-K boost button capped at 150 kW (from 350 kW) from Miami onwards.
+
+### McLaren's China Double DNS
+Both McLarens failed to start the Chinese GP — the first time any team suffered a double DNS in modern F1. Two separate Mercedes HPP battery failures: Norris lost ICE-hybrid comms, Piastri's battery failed to restart. First time in Norris's 8-season career he missed a race start. McLaren admitted they are "on the back foot" understanding the new 2026 power unit compared to the works Mercedes team.
+
+### Bahrain and Saudi GP Cancellations
+F1 confirmed both Middle East rounds cancelled following the Iran–Gulf conflict. Gulf states were struck by Iranian attacks in retaliation for US-Israeli airstrikes. Calendar dropped from 24 to 22 races, creating a five-week gap (March 29 to May 3).
+
+### Mercedes Intra-Team Tension
+With Antonelli (72 pts) leading Russell (63 pts), team boss Toto Wolff issued a pointed warning: "The team is always bigger than the drivers. The moment a driver feels like this is all about him, that's not the mindset I would ever allow or accept. If you are selfish and put our joint success at risk, or damage our brand, then I'm going to be ruthless about it."
+
+### Italian Tax Authority Investigation — All 20 Drivers
+The Guardia di Finanza (Bologna) launched a tax evasion investigation covering all 20 drivers. Italian law treats F1 drivers as self-employed at Italian circuits; teams are responsible for withholding local tax. Authorities allege teams have failed to remit this tax since at least 2020, potentially hundreds of millions of euros. Criminal charges possible; all 20 drivers received letters requesting tax returns for 2025.
+
+### Piastri's Reconnaissance Lap Crash — Australia
+Piastri crashed his MCL40 on the out-lap to the grid before Australia even started — an unexpected MGU-K power surge pushed the car beyond control. He did not start; a brand-new chassis was destroyed on the new regs' first race weekend.
+
+### Verstappen's Qualifying Struggles
+Two-time (or more) champion Verstappen started last in both Australia (crashed on first Q1 flying lap at Turn 1 — rear wheels locked under braking with the ABS-less 2026 system) and Japan (another qualifying incident). His best result is P6 in Australia from the back of the grid. Currently 9th in the championship, 60 points off the leader. Quote: "I'm not having fun at all."
+
+---
+
+## 2026 Season — Driver Form & Performance {#form}
+
+### Overperforming / Surprises
+
+**Kimi Antonelli (Mercedes):** The story of the season. 19 years old, two wins (China, Japan), championship leader. Youngest F1 pole-sitter ever (broke Vettel's 2008 record). First teenager with back-to-back wins. Youngest championship leader in history at 19 years, 216 days. Italy's first title contender since Ascari 1953. Calm, methodical, devastatingly fast — his charge from 6th on Lap 1 at Suzuka to race win was the moment of the season so far.
+
+**George Russell (Mercedes):** Won Australia, strong consistency across all three rounds. Experienced head of the championship-leading team, now being pushed hard by his 19-year-old teammate.
+
+**Lewis Hamilton (Ferrari):** P4 Australia, P3 China (first Ferrari podium after 477-day wait), P6 Japan. Said he was "massively excited for new beginnings" and described a conscious reset at Ferrari. Showing he remains competitive at 41 in an entirely new technical era.
+
+**Oliver Bearman (Haas):** P7 Australia (points for the midfield team), strong pace before his Japan crash. A genuine surprise package in the Haas.
+
+**Gabriel Bortoleto (Audi):** P9 on debut in Australia. Audi scored points in their first race — historically rare for any new entrant.
+
+### Underperforming / Struggling
+
+**Max Verstappen (Red Bull):** The dominant force of 2023–2025 is having a nightmare start. Zero qualifying laps completed in Australia (crashed on his first one). Started last twice. Best result: P6 from last in Australia. P9 in championship on 12 points, 60 off the leader. The RB22 chassis is a fundamental problem — poor rear-end balance, hard to set up. Red Bull's own admission: "one second off" the leaders per lap.
+
+**Lando Norris (McLaren):** Defending champion is 5th with 25 points but two of three weekends were heavily compromised. China DNS (battery failure). The MCL40 has genuine pace but reliability is a crisis.
+
+**Fernando Alonso (Aston Martin):** DNF Australia (Lap 21, Honda vibrations). Zero points in three rounds. The Adrian Newey partnership is yet to produce any results — Honda's PU vibration issue with the AMR26 is a fundamental design problem.
+
+**Aston Martin broadly:** Worst-performing team on the grid, zero points. Honda vibrations causing repeated battery failures. Even slower than Cadillac (the brand-new 11th team). ADUO relief mechanism granted; team not expected to be competitive until at least Monaco.
+
+---
+
+## 2026 Season — Technical Picture {#technical}
+
+### Power Unit Hierarchy (as of April 2026)
+1. **Mercedes** — dominant in power and energy management
+2. **Ferrari** — competitive, strong mechanical package
+3. **Ford/Red Bull Powertrains** — broadly competitive but RB22 chassis is a liability
+4. **Audi** — new manufacturer, expected development trajectory; showed promise with Bortoleto P9 on debut
+5. **Honda (Aston Martin)** — crisis. Violent vibrations when fitted to AMR26 chassis. Battery failures. Power output below competitors. Honda: "extremely challenging."
+
+### Ferrari Miami Upgrade Package
+Ferrari bringing ~50% new components to Miami GP — largest single upgrade by any team in 2026 so far. Reworked front wing, new diffuser, revised floor, updated rear wing, suspension adjustments. Target: close the estimated 0.3–0.5s per lap gap to Mercedes.
+
+### Red Bull RB22
+Laurent Mekies admitted "significant shortcomings" after China. Poor rear-end balance, hard to set up, chassis doesn't suit the active aero effectively. Ford/Red Bull PU is broadly competitive but the car is the problem. "One second off" leaders per lap.
+
+### McLaren MCL40
+Third-best pace in the field when reliable. Mercedes HPP knowledge gap vs. works team is the core problem — exposed by two different battery failure modes on the same race weekend in China.
+
+### ADUO — Additional Development and Upgrade Opportunities
+New 2026 in-season mechanism for lagging PU manufacturers:
+- Trailing leader by 2–4%: 1 upgrade window
+- Trailing leader by >4%: 2 upgrade windows
+Honda (Aston Martin) confirmed eligible; ADUO window expected around Monaco GP.
+
+### MGU-K Boost Cap (effective Miami GP)
+FIA reduced the maximum MGU-K deployment rate from 350 kW to 150 kW following the Bearman crash and emergency review. Addresses peak speed differentials. Concerns remain about "passive harvesting deceleration" which is harder to regulate.
