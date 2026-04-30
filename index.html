@@ -685,9 +685,6 @@ const TOOLS = [{
 const precallView       = document.getElementById('precallView');
 const callView          = document.getElementById('callView');
 const callBubble        = document.getElementById('callBubble');
-const bubbleTimerEl     = document.getElementById('bubbleTimerEl');
-const bDot              = document.getElementById('bDot');
-const bStatus           = document.getElementById('bStatus');
 const callBtn           = document.getElementById('callBtn');
 const callLabel         = document.getElementById('callLabel');
 const btnIcon           = document.getElementById('btnIcon');
@@ -764,8 +761,6 @@ function setState(s) {
     case 'ready':
       sDot.className        = 's-dot green';
       sTxt.textContent      = 'CONNECTED';
-      bDot.className        = 'b-dot green';
-      bStatus.textContent   = 'Connected';
       callBubble.classList.remove('speaking');
       audioBars.classList.remove('active');
       footerLbl.textContent = 'PETE IS LISTENING...';
@@ -775,15 +770,12 @@ function setState(s) {
     case 'listening':
       sDot.className        = 's-dot green';
       sTxt.textContent      = 'CONNECTED';
-      bDot.className        = 'b-dot green';
-      bStatus.textContent   = 'Listening';
       callBubble.classList.remove('speaking');
       audioBars.classList.add('active');
       footerLbl.textContent = 'PETE IS LISTENING...';
       break;
 
     case 'processing':
-      bStatus.textContent   = 'Thinking';
       audioBars.classList.remove('active');
       footerLbl.textContent = 'PROCESSING...';
       break;
@@ -791,8 +783,6 @@ function setState(s) {
     case 'speaking':
       sDot.className        = 's-dot red';
       sTxt.textContent      = 'PETE IS SPEAKING';
-      bDot.className        = 'b-dot red';
-      bStatus.textContent   = 'Speaking';
       callBubble.classList.add('speaking');
       audioBars.classList.remove('active');
       footerLbl.textContent = 'PETE IS SPEAKING...';
@@ -952,7 +942,6 @@ function startTimer() {
     const m = Math.floor(s / 60);
     const t = String(m).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
     timerDigits.textContent  = t;
-    bubbleTimerEl.textContent = t;
   }, 1000);
 }
 
@@ -960,7 +949,6 @@ function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
   timerDigits.textContent   = '--:--';
-  bubbleTimerEl.textContent = '--:--';
 }
 
 // ─────────────────────────────────────────────
