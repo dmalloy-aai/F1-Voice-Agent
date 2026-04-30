@@ -84,9 +84,15 @@
     .panel {
       border: 1px solid var(--black);
       background: var(--panel);
-      display: flex;
+      display: none;
       flex-direction: column;
       height: 360px;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .panel.visible {
+      display: flex;
+      opacity: 1;
     }
 
     .panel-bar {
@@ -239,6 +245,26 @@
       100% { transform: scale(1.7); opacity: 0; }
     }
 
+    /* ── RINGING STATE ── */
+    .mic-btn.ringing { border-color: #16A34A; }
+    .mic-btn.ringing svg { stroke: #16A34A; }
+    .mic-btn.ringing .btn-lbl { color: #16A34A; }
+    .mic-btn.ringing::before,
+    .mic-btn.ringing::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid #16A34A;
+      animation: ring-out 1.8s ease-out infinite;
+    }
+    .mic-btn.ringing::after { animation-delay: 0.9s; }
+
+    @keyframes ring-out {
+      0%   { transform: scale(1);   opacity: 0.7; }
+      100% { transform: scale(2.0); opacity: 0; }
+    }
+
     .mic-btn svg {
       width: 26px; height: 26px;
       fill: none;
@@ -338,17 +364,6 @@
     <p class="sub">Expert Analysis System — Voice Agent</p>
   </header>
 
-  <div class="panel">
-    <div class="panel-bar">
-      <div class="status-pip" id="pip"></div>
-      <span class="status-txt" id="statusTxt">STANDBY</span>
-      <span class="timer-txt" id="timer"></span>
-    </div>
-    <div class="transcript" id="transcript">
-      <p class="empty-msg" id="emptyMsg">Session not started.<br>Press START to connect to the analyst.</p>
-    </div>
-  </div>
-
   <div class="controls">
     <div class="lights" id="lights">
       <div class="light" id="l0"></div>
@@ -373,6 +388,17 @@
 
     <p class="ctrl-status" id="ctrlStatus">Press to begin session</p>
     <button class="end-btn" id="endBtn" onclick="endSession()">End session</button>
+  </div>
+
+  <div class="panel" id="panel">
+    <div class="panel-bar">
+      <div class="status-pip" id="pip"></div>
+      <span class="status-txt" id="statusTxt">STANDBY</span>
+      <span class="timer-txt" id="timer"></span>
+    </div>
+    <div class="transcript" id="transcript">
+      <p class="empty-msg" id="emptyMsg">Call Pete to begin.</p>
+    </div>
   </div>
 
   <footer>Powered by AssemblyAI Voice Agent API</footer>
@@ -456,6 +482,7 @@ const emptyMsg   = document.getElementById('emptyMsg');
 const ctrlStatus = document.getElementById('ctrlStatus');
 const endBtn     = document.getElementById('endBtn');
 const toast      = document.getElementById('toast');
+const panelEl    = document.getElementById('panel');
 const lights     = [0,1,2,3,4].map(i => document.getElementById('l' + i));
 
 // ─────────────────────────────────────────────
@@ -480,13 +507,13 @@ let speakingStartTime = 0; // audioCtx.currentTime when first reply.audio arrive
 // STATE MACHINE
 // ─────────────────────────────────────────────
 const STATES = {
-  idle:       { pipClass: '',      status: 'STANDBY',    ctrl: 'Press to begin session',      btn: 'Start',  btnClass: '' },
-  connecting: { pipClass: 'amber', status: 'CONNECTING', ctrl: 'Connecting...',               btn: '...',    btnClass: '' },
-  ready:      { pipClass: 'green', status: 'READY',      ctrl: 'Session live — speak freely', btn: 'Live',   btnClass: 'live' },
-  listening:  { pipClass: 'red',   status: 'LISTENING',  ctrl: 'Listening...',                btn: 'Live',   btnClass: 'active' },
-  processing: { pipClass: 'amber', status: 'PROCESSING', ctrl: 'Processing...',               btn: 'Wait',   btnClass: 'processing' },
-  speaking:   { pipClass: 'green', status: 'SPEAKING',   ctrl: 'Analyst responding...',       btn: 'Live',   btnClass: 'live' },
-  error:      { pipClass: '',      status: 'ERROR',      ctrl: 'Connection lost. Press retry.',btn: 'Retry', btnClass: '' },
+  idle:       { pipClass: '',      status: 'STANDBY',    ctrl: 'Press to begin session',      btn: 'Start',     btnClass: '' },
+  connecting: { pipClass: 'amber', status: 'RINGING',    ctrl: 'Calling Pete...',             btn: 'Ringing',   btnClass: 'ringing' },
+  ready:      { pipClass: 'green', status: 'READY',      ctrl: 'Session live — speak freely', btn: 'Live',      btnClass: 'live' },
+  listening:  { pipClass: 'red',   status: 'LISTENING',  ctrl: 'Listening...',                btn: 'Live',      btnClass: 'active' },
+  processing: { pipClass: 'amber', status: 'PROCESSING', ctrl: 'Processing...',               btn: 'Wait',      btnClass: 'processing' },
+  speaking:   { pipClass: 'green', status: 'SPEAKING',   ctrl: 'Pete is speaking...',         btn: 'Live',      btnClass: 'live' },
+  error:      { pipClass: '',      status: 'ERROR',      ctrl: 'Connection lost. Press retry.',btn: 'Retry',    btnClass: '' },
 };
 
 function setState(s) {
@@ -503,17 +530,26 @@ function setState(s) {
 }
 
 // ─────────────────────────────────────────────
-// F1 LIGHTS — race-start sequence
+// TRANSCRIPT PANEL — show/hide
 // ─────────────────────────────────────────────
-function runLights() {
-  // Illuminate all 5 lights slowly — they stay on until session.ready fires
-  return new Promise(resolve => {
-    let i = 0;
-    const on = setInterval(() => {
-      lights[i++].classList.add('on');
-      if (i >= 5) { clearInterval(on); resolve(); }
-    }, 400);
-  });
+function showTranscript() {
+  panelEl.style.display = 'flex';
+  // Double rAF so the browser registers display:flex before transitioning opacity
+  requestAnimationFrame(() => requestAnimationFrame(() => panelEl.classList.add('visible')));
+}
+
+function hideTranscript() {
+  panelEl.classList.remove('visible');
+  setTimeout(() => { panelEl.style.display = 'none'; }, 400);
+}
+
+// ─────────────────────────────────────────────
+// F1 LIGHTS — Pete answered flash
+// ─────────────────────────────────────────────
+function flashLights() {
+  // All 5 on at once (Pete picked up), then all out after a beat
+  lights.forEach(l => l.classList.add('on'));
+  setTimeout(() => lights.forEach(l => l.classList.remove('on')), 350);
 }
 
 // ─────────────────────────────────────────────
@@ -677,7 +713,11 @@ async function connect() {
     stopTimer();
     pendingAgentEl = null;
     lights.forEach(l => l.classList.remove('on'));
-    if (appState !== 'idle') setState('error');
+    if (appState !== 'idle') {
+      hideTranscript();
+      setTimeout(() => { transcript.innerHTML = ''; }, 450);
+      setState('error');
+    }
   });
 
   ws.addEventListener('error', () => {
@@ -691,7 +731,8 @@ async function handleEvent(msg) {
   switch (msg.type) {
 
     case 'session.ready':
-      lights.forEach(l => l.classList.remove('on')); // lights out = GO
+      flashLights();       // all 5 on briefly — Pete answered
+      showTranscript();    // fade in transcript below controls
       sessionReady = true;
       startTimer();
       await startMic();
@@ -804,7 +845,6 @@ async function handleStart() {
     try {
       ensureAudioCtx();
       setState('connecting');
-      await runLights();
       await connect();
     } catch (e) {
       showToast(e.message);
@@ -821,6 +861,9 @@ function endSession() {
   pendingToolCalls.clear();
   pendingAgentEl = null;
   lights.forEach(l => l.classList.remove('on'));
+  hideTranscript();
+  // Clear transcript content after panel fades out
+  setTimeout(() => { transcript.innerHTML = ''; }, 450);
   if (ws) { ws.close(); ws = null; }
   setState('idle');
 }
