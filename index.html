@@ -3,156 +3,347 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2026 F1 Analyst — Voice Agent</title>
+  <title>Pit Lane Pete — F1 Voice Agent</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --cream:        #F5F0E8;
-      --cream-dark:   #EDE8DC;
-      --cream-border: #D8D0C4;
-      --black:        #0A0A0A;
-      --red:          #E10600;
-      --panel:        #0C0C0C;
-      --panel-line:   #1E1E1E;
-      --light-off:    #2A1E18;
-      --font-serif:   'Playfair Display', Georgia, serif;
-      --font-mono:    'IBM Plex Mono', 'Courier New', monospace;
-    }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --cream:   #F0EBE1;
+      --rule:    #C8C0B4;
+      --black:   #0A0A0A;
+      --mid:     #555555;
+      --muted:   #888888;
+      --red:     #E10600;
+      --green:   #16A34A;
+      --amber:   #F59E0B;
+      --panel:   #0C0C0C;
+      --panel-b: #1E1E1E;
+      --serif:   'Playfair Display', Georgia, serif;
+      --mono:    'IBM Plex Mono', 'Courier New', monospace;
+    }
+
+    html, body { height: 100%; }
+
     body {
+      background: #111;
+      font-family: var(--mono);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100dvh;
+    }
+
+    /* ── CARD ── */
+    .card {
       background: var(--cream);
-      color: var(--black);
-      font-family: var(--font-mono);
+      width: 100%;
+      max-width: 420px;
       min-height: 100dvh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 48px 24px 40px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .page {
-      width: 100%;
-      max-width: 660px;
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
+    @media (min-height: 680px) and (min-width: 440px) {
+      .card { min-height: 680px; box-shadow: 0 0 60px rgba(0,0,0,0.5); }
     }
 
     /* ── HEADER ── */
-    .header { display: flex; flex-direction: column; gap: 14px; }
-
-    .tag {
-      display: inline-flex;
+    .card-header {
+      width: 100%;
+      padding: 28px 24px 0;
+      display: flex;
       align-items: center;
-      gap: 8px;
-      border: 1px solid var(--black);
-      padding: 5px 12px;
-      font-size: 10px;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      width: fit-content;
-    }
-
-    .tag-pip {
-      width: 6px; height: 6px;
-      background: var(--red);
-      border-radius: 50%;
+      gap: 14px;
       flex-shrink: 0;
     }
 
-    h1 {
-      font-family: var(--font-serif);
-      font-size: clamp(34px, 6vw, 56px);
-      font-weight: 700;
-      line-height: 1.08;
-      letter-spacing: -0.02em;
+    .h-rule { flex: 1; height: 1px; background: var(--rule); }
+
+    .card-title {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(18px, 4vw, 22px);
+      color: var(--black);
+      white-space: nowrap;
+      letter-spacing: 0.01em;
     }
 
-    /* contrast-safe: #555 on cream = 7.6:1 ✓ */
-    .sub {
-      font-size: 11px;
-      letter-spacing: 0.12em;
-      color: #555;
-      text-transform: uppercase;
+    /* ── AVATAR ── */
+    .avatar-section {
+      padding: 28px 0 0;
+      flex-shrink: 0;
     }
 
-    /* ── TRANSCRIPT PANEL ── */
-    .panel {
-      border: 1px solid var(--black);
-      background: var(--panel);
-      display: none;
-      flex-direction: column;
-      height: 360px;
-      opacity: 0;
+    .avatar-ring {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      border: 1.5px solid var(--rule);
+      overflow: hidden;
+      position: relative;
+      background: var(--cream);
+      transition: border-color 0.3s;
+    }
+
+    /* Speaking: red border pulse */
+    .avatar-ring.speaking {
+      border-color: var(--red);
+      animation: border-pulse 1.4s ease-in-out infinite;
+    }
+    @keyframes border-pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(225,6,0,0.3); }
+      50%      { box-shadow: 0 0 0 8px rgba(225,6,0,0); }
+    }
+
+    /* Placeholder gradient (pre-call / no photo) */
+    .avatar-placeholder {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 38% 38%,
+        #D9CF5A 0%, #9DB83C 35%, #5A7A28 65%, #2E4418 100%);
       transition: opacity 0.4s ease;
     }
-    .panel.visible {
+
+    /* Real photo — swap src to activate */
+    .avatar-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .avatar-img.show        { opacity: 1; }
+    .avatar-placeholder.hide { opacity: 0; }
+
+    /* ── CARD BODY ── */
+    .card-body {
+      flex: 1;
       display: flex;
-      opacity: 1;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 36px 0;
+      width: 100%;
+      min-height: 120px;
     }
 
-    .panel-bar {
+    /* Credentials (pre-call) */
+    .credentials {
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--mid);
+      max-width: 280px;
+      transition: opacity 0.3s ease;
+    }
+    .credentials.hidden { opacity: 0; pointer-events: none; }
+
+    /* Timer + status block (in-call) */
+    .timer-block {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+    .timer-block.show { display: flex; }
+
+    .timer-digits {
+      font-family: var(--mono);
+      font-size: clamp(52px, 13vw, 64px);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--black);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .status-row {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 9px 14px;
-      border-bottom: 1px solid var(--panel-line);
-      font-size: 10px;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      flex-shrink: 0;
+      gap: 7px;
     }
 
-    .status-pip {
+    .s-dot {
       width: 7px; height: 7px;
       border-radius: 50%;
-      background: #BBBBBB;
+      background: var(--muted);
       flex-shrink: 0;
       transition: background 0.25s;
     }
-    .status-pip.green  { background: #22C55E; }
-    .status-pip.red    { background: var(--red); animation: blink 1s infinite; }
-    .status-pip.amber  { background: #F59E0B; animation: blink 0.6s infinite; }
+    .s-dot.green { background: var(--green); }
+    .s-dot.amber { background: var(--amber); animation: blink 0.9s infinite; }
+    .s-dot.red   { background: var(--red);   animation: blink 0.6s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.15} }
 
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .s-txt {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
 
-    .status-txt { flex: 1; color: #BBBBBB; }
-
-    /* contrast-safe: #888 on #0C0C0C = 5.1:1 ✓ */
-    .timer-txt  { color: #888; font-size: 10px; }
-
-    .transcript {
-      flex: 1;
-      overflow-y: auto;
-      padding: 18px 16px;
+    /* ── CALL CONTROLS ── */
+    .call-controls {
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      align-items: center;
+      gap: 10px;
+      padding: 22px 0 18px;
+      flex-shrink: 0;
     }
-    .transcript::-webkit-scrollbar { width: 3px; }
-    .transcript::-webkit-scrollbar-track { background: transparent; }
-    .transcript::-webkit-scrollbar-thumb { background: #252525; }
 
-    /* contrast-safe: #BBB on #0C0C0C = 15:1 ✓ AAA */
-    .empty-msg {
-      font-size: 12px;
-      color: #BBBBBB;
-      text-align: center;
-      margin: auto;
-      line-height: 1.8;
+    .call-btn {
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--green);
+      transition: background 0.2s, transform 0.15s;
+      position: relative;
     }
+    .call-btn:hover  { transform: scale(1.06); }
+    .call-btn:active { transform: scale(0.97); }
+    .call-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .call-btn.end { background: var(--red); }
+
+    /* Ringing animation */
+    .call-btn.ringing::before,
+    .call-btn.ringing::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1.5px solid var(--green);
+      animation: ring-out 1.8s ease-out infinite;
+      pointer-events: none;
+    }
+    .call-btn.ringing::after { animation-delay: 0.9s; }
+    @keyframes ring-out {
+      0%   { transform: scale(1);   opacity: 0.7; }
+      100% { transform: scale(2.2); opacity: 0;   }
+    }
+
+    .call-btn svg {
+      width: 30px; height: 30px;
+      fill: none;
+      stroke: white;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    /* phone-off needs fill for the slash */
+    .call-btn svg.slash-line { stroke: white; }
+
+    .call-label {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* ── TRANSCRIPT TRIGGER ── */
+    .t-trigger {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      padding-bottom: 14px;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+      border: none;
+      background: none;
+      font-family: var(--mono);
+    }
+    .t-trigger:hover { opacity: 0.75; }
+    .t-trigger.show  { display: flex; }
+
+    .t-chevron {
+      font-size: 12px;
+      color: var(--mid);
+      line-height: 1;
+      letter-spacing: 4px;
+    }
+    .t-label {
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* ── F1 LIGHTS (invisible — kept for flash logic) ── */
+    #lights { display: none; }
+    .light  { display: none; }
+
+    /* ── TRANSCRIPT SHEET ── */
+    .t-sheet {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: var(--panel);
+      transform: translateY(100%);
+      transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
+      display: flex;
+      flex-direction: column;
+      max-height: 54%;
+      min-height: 180px;
+      z-index: 10;
+    }
+    .t-sheet.open { transform: translateY(0); }
+
+    /* Red accent stripe */
+    .sheet-stripe { height: 3px; background: var(--red); flex-shrink: 0; }
+
+    /* Drag handle */
+    .sheet-handle {
+      display: flex;
+      justify-content: center;
+      padding: 9px 0 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .sheet-handle::before {
+      content: '';
+      width: 32px; height: 3px;
+      border-radius: 2px;
+      background: #2E2E2E;
+    }
+
+    /* Scrollable message area */
+    .t-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 22px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .t-scroll::-webkit-scrollbar { width: 2px; }
+    .t-scroll::-webkit-scrollbar-thumb { background: #252525; }
 
     .msg {
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 4px;
       animation: fadein 0.2s ease;
     }
-    @keyframes fadein { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:none} }
+    @keyframes fadein {
+      from { opacity:0; transform:translateY(3px); }
+      to   { opacity:1; transform:none; }
+    }
 
     .msg-label {
       font-size: 9px;
@@ -161,178 +352,66 @@
       font-weight: 500;
     }
     .msg.agent .msg-label { color: var(--red); }
-    /* contrast-safe: #999 on #0C0C0C = 5.8:1 ✓ */
-    .msg.user  .msg-label { color: #999; }
+    .msg.user  .msg-label { color: #555; }
 
     .msg-text {
-      font-size: 13px;
+      font-size: 14px;
       line-height: 1.65;
     }
     .msg.agent .msg-text { color: #ECECEC; }
-    /* contrast-safe: #AAA on #0C0C0C = 7.7:1 ✓ */
-    .msg.user  .msg-text { color: #AAA; }
+    .msg.user  .msg-text { color: #999; }
 
-    /* Animated dots shown while Pete is speaking but transcript hasn't arrived yet */
+    /* Pulsing dots while Pete's transcript is pending */
     .msg-text.thinking::after {
       content: '· · ·';
       letter-spacing: 0.25em;
       animation: dotpulse 1.4s ease-in-out infinite;
     }
     @keyframes dotpulse {
-      0%, 100% { opacity: 0.2; }
-      50%       { opacity: 1;   }
+      0%,100% { opacity: 0.2; }
+      50%      { opacity: 1;   }
     }
 
-    /* ── CONTROLS ── */
-    .controls {
+    /* ── SHEET FOOTER ── */
+    .sheet-footer {
+      flex-shrink: 0;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: 10px;
+      padding: 10px 22px 16px;
+      border-top: 1px solid var(--panel-b);
     }
 
-    .lights { display: flex; gap: 12px; }
-
-    .light {
-      width: 15px; height: 15px;
-      border-radius: 50%;
-      background: var(--light-off);
-      border: 1px solid #1A1A1A;
-      transition: background 0.12s, box-shadow 0.12s;
-    }
-    .light.on {
-      background: var(--red);
-      box-shadow: 0 0 10px 3px rgba(225,6,0,0.55);
-      border-color: var(--red);
-    }
-
-    .mic-wrap { position: relative; }
-
-    .mic-btn {
-      width: 84px; height: 84px;
-      border-radius: 50%;
-      border: 1.5px solid var(--black);
-      background: transparent;
-      cursor: pointer;
+    .audio-bars {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: background 0.2s, border-color 0.2s;
-      position: relative;
+      align-items: flex-end;
+      gap: 3px;
+      height: 16px;
     }
-    .mic-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .mic-btn.live     { border-color: var(--cream-border); }
-
-    .mic-btn.active {
+    .bar {
+      width: 3px;
       background: var(--red);
-      border-color: var(--red);
+      border-radius: 1.5px;
+      height: 4px;
     }
-    .mic-btn.active::before,
-    .mic-btn.active::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1.5px solid var(--red);
-      animation: ripple 1.4s ease-out infinite;
-    }
-    .mic-btn.active::after { animation-delay: 0.5s; }
-
-    @keyframes ripple {
-      0%   { transform: scale(1);   opacity: 0.7; }
-      100% { transform: scale(1.7); opacity: 0; }
+    .audio-bars.active .bar { animation: bar-bounce 0.75s ease-in-out infinite; }
+    .audio-bars.active .bar:nth-child(1) { animation-delay: 0s; }
+    .audio-bars.active .bar:nth-child(2) { animation-delay: 0.12s; }
+    .audio-bars.active .bar:nth-child(3) { animation-delay: 0.25s; }
+    .audio-bars.active .bar:nth-child(4) { animation-delay: 0.12s; }
+    @keyframes bar-bounce {
+      0%,100% { height: 4px;  }
+      50%      { height: 14px; }
     }
 
-    /* ── RINGING STATE ── */
-    .mic-btn.ringing { border-color: #16A34A; }
-    .mic-btn.ringing svg { stroke: #16A34A; }
-    .mic-btn.ringing .btn-lbl { color: #16A34A; }
-    .mic-btn.ringing::before,
-    .mic-btn.ringing::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      border: 1.5px solid #16A34A;
-      animation: ring-out 1.8s ease-out infinite;
-    }
-    .mic-btn.ringing::after { animation-delay: 0.9s; }
-
-    @keyframes ring-out {
-      0%   { transform: scale(1);   opacity: 0.7; }
-      100% { transform: scale(2.0); opacity: 0; }
-    }
-
-    .mic-btn svg {
-      width: 26px; height: 26px;
-      fill: none;
-      stroke: var(--black);
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: stroke 0.2s;
-    }
-    /* only active (listening/red bg) gets white icon — speaking keeps black icon on cream */
-    .mic-btn.active svg { stroke: white; }
-
-    .mic-btn .btn-lbl {
-      font-size: 8px;
+    .footer-lbl {
+      font-size: 9px;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--black);
-      transition: color 0.2s;
-    }
-    /* only active gets white label */
-    .mic-btn.active .btn-lbl { color: white; }
-
-    .spinner {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      border: 1.5px solid transparent;
-      border-top-color: var(--black);
-      animation: spin 0.8s linear infinite;
-      display: none;
-    }
-    .processing .spinner { display: block; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* contrast-safe: #555 on cream = 7.6:1 ✓ */
-    .ctrl-status {
-      font-size: 10px;
-      letter-spacing: 0.1em;
       color: #555;
-      text-transform: uppercase;
-      text-align: center;
-      min-height: 14px;
     }
 
-    /* contrast-safe: #555 on cream = 7.6:1 ✓ */
-    .end-btn {
-      font-size: 10px;
-      letter-spacing: 0.1em;
-      color: #555;
-      text-transform: uppercase;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      display: none;
-      padding: 0;
-    }
-    .end-btn.visible { display: block; }
-
-    /* contrast-safe: #666 on cream = 5.9:1 ✓ */
-    footer {
-      font-size: 10px;
-      letter-spacing: 0.08em;
-      color: #666;
-      text-align: center;
-    }
-
+    /* ── TOAST ── */
     #toast {
       position: fixed;
       bottom: 24px;
@@ -341,7 +420,7 @@
       background: #150000;
       border: 1px solid var(--red);
       color: #FF9999;
-      font-family: var(--font-mono);
+      font-family: var(--mono);
       font-size: 11px;
       padding: 10px 20px;
       opacity: 0;
@@ -351,58 +430,97 @@
       max-width: 90vw;
       overflow: hidden;
       text-overflow: ellipsis;
+      z-index: 100;
     }
     #toast.show { opacity: 1; }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <header class="header">
-    <div class="tag"><div class="tag-pip"></div>F1 Analyst</div>
-    <h1>2026 F1 Regulations</h1>
-    <p class="sub">Expert Analysis System — Voice Agent</p>
-  </header>
+<div class="card" id="card">
 
-  <div class="controls">
-    <div class="lights" id="lights">
-      <div class="light" id="l0"></div>
-      <div class="light" id="l1"></div>
-      <div class="light" id="l2"></div>
-      <div class="light" id="l3"></div>
-      <div class="light" id="l4"></div>
-    </div>
-
-    <div class="mic-wrap">
-      <button class="mic-btn" id="micBtn" onclick="handleStart()">
-        <svg id="micIcon" viewBox="0 0 24 24">
-          <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-          <line x1="8" y1="23" x2="16" y2="23"/>
-        </svg>
-        <span class="btn-lbl" id="btnLbl">Start</span>
-        <div class="spinner"></div>
-      </button>
-    </div>
-
-    <p class="ctrl-status" id="ctrlStatus">Press to begin session</p>
-    <button class="end-btn" id="endBtn" onclick="endSession()">End session</button>
+  <!-- Header -->
+  <div class="card-header">
+    <div class="h-rule"></div>
+    <h1 class="card-title">Pit Lane Pete</h1>
+    <div class="h-rule"></div>
   </div>
 
-  <div class="panel" id="panel">
-    <div class="panel-bar">
-      <div class="status-pip" id="pip"></div>
-      <span class="status-txt" id="statusTxt">STANDBY</span>
-      <span class="timer-txt" id="timer"></span>
-    </div>
-    <div class="transcript" id="transcript">
-      <p class="empty-msg" id="emptyMsg">Call Pete to begin.</p>
+  <!-- Avatar -->
+  <div class="avatar-section">
+    <div class="avatar-ring" id="avatarRing">
+      <div class="avatar-placeholder" id="avatarPlaceholder"></div>
+      <!--
+        To add Pete's photo: set the src below and it will cross-fade in
+        when the call connects. Recommended: ~400×400px, cropped to face.
+        Example: <img class="avatar-img" id="avatarImg" src="pete.jpg" alt="Pit Lane Pete">
+      -->
+      <img class="avatar-img" id="avatarImg" src="" alt="Pit Lane Pete">
     </div>
   </div>
 
-  <footer>Powered by AssemblyAI Voice Agent API</footer>
-</div>
+  <!-- Card body: credentials pre-call / timer+status in-call -->
+  <div class="card-body">
+    <p class="credentials" id="credentials">
+      Former F1 pit crew mechanic. 22 years.<br>
+      Both championships.<br><br>
+      He's memorised all 847 pages of the<br>
+      2026 regulations. He didn't ask to.<br>
+      Ask him anything.
+    </p>
+
+    <div class="timer-block" id="timerBlock">
+      <div class="timer-digits" id="timerDigits">--:--</div>
+      <div class="status-row">
+        <div class="s-dot" id="sDot"></div>
+        <span class="s-txt" id="sTxt">STANDBY</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call / End button -->
+  <div class="call-controls">
+    <button class="call-btn" id="callBtn" onclick="handleCallBtn()">
+      <!-- Phone-out icon (pre-call) -->
+      <svg id="btnIcon" viewBox="0 0 24 24">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+    </button>
+    <span class="call-label" id="callLabel">CALL PETE</span>
+  </div>
+
+  <!-- Read transcript trigger (shown in-call, before sheet opens) -->
+  <button class="t-trigger" id="transcriptTrigger" onclick="openSheet()">
+    <span class="t-chevron">&#8963; &#8963;</span>
+    <span class="t-label">Read Transcript</span>
+  </button>
+
+  <!-- Invisible F1 lights — kept for JS flash logic -->
+  <div id="lights" style="display:none">
+    <div class="light" id="l0"></div>
+    <div class="light" id="l1"></div>
+    <div class="light" id="l2"></div>
+    <div class="light" id="l3"></div>
+    <div class="light" id="l4"></div>
+  </div>
+
+  <!-- Transcript bottom sheet -->
+  <div class="t-sheet" id="tSheet">
+    <div class="sheet-stripe"></div>
+    <div class="sheet-handle" onclick="closeSheet()" title="Close transcript"></div>
+    <div class="t-scroll" id="transcript"></div>
+    <div class="sheet-footer">
+      <div class="audio-bars" id="audioBars">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+      <span class="footer-lbl" id="footerLbl">PETE IS LISTENING...</span>
+    </div>
+  </div>
+
+</div><!-- /card -->
 
 <div id="toast"></div>
 
@@ -472,82 +590,164 @@ const TOOLS = [{
 // ─────────────────────────────────────────────
 // DOM REFS
 // ─────────────────────────────────────────────
-const micBtn     = document.getElementById('micBtn');
-const btnLbl     = document.getElementById('btnLbl');
-const pip        = document.getElementById('pip');
-const statusTxt  = document.getElementById('statusTxt');
-const timerEl    = document.getElementById('timer');
-const transcript = document.getElementById('transcript');
-const emptyMsg   = document.getElementById('emptyMsg');
-const ctrlStatus = document.getElementById('ctrlStatus');
-const endBtn     = document.getElementById('endBtn');
-const toast      = document.getElementById('toast');
-const panelEl    = document.getElementById('panel');
-const lights     = [0,1,2,3,4].map(i => document.getElementById('l' + i));
+const callBtn           = document.getElementById('callBtn');
+const callLabel         = document.getElementById('callLabel');
+const btnIcon           = document.getElementById('btnIcon');
+const timerBlock        = document.getElementById('timerBlock');
+const timerDigits       = document.getElementById('timerDigits');
+const sDot              = document.getElementById('sDot');
+const sTxt              = document.getElementById('sTxt');
+const credentials       = document.getElementById('credentials');
+const avatarRing        = document.getElementById('avatarRing');
+const avatarImg         = document.getElementById('avatarImg');
+const avatarPlaceholder = document.getElementById('avatarPlaceholder');
+const transcriptTrigger = document.getElementById('transcriptTrigger');
+const tSheet            = document.getElementById('tSheet');
+const transcript        = document.getElementById('transcript');
+const audioBars         = document.getElementById('audioBars');
+const footerLbl         = document.getElementById('footerLbl');
+const toast             = document.getElementById('toast');
+const lights            = [0,1,2,3,4].map(i => document.getElementById('l' + i));
+
+// SVG paths
+const PHONE_OUT  = `<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1.21h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.79a16 16 0 0 0 6 6l.95-.95a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>`;
+const PHONE_DOWN = `<path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91M23 1 1 23"/>`;
 
 // ─────────────────────────────────────────────
 // STATE
 // ─────────────────────────────────────────────
-let appState = 'idle';
-let ws = null;
-let audioCtx = null;
-let micStreamObj = null;
-let processorNode = null;
-let sessionReady = false;
-let pendingToolCalls = new Map(); // call_id → Promise<{type,call_id,result}>
-let nextPlayTime = 0;
-let activeSources = [];
-let sessionStart = null;
-let timerInterval = null;
-let toastTimeout = null;
-let pendingAgentEl = null; // streaming transcript target
-let speakingStartTime = 0; // audioCtx.currentTime when first reply.audio arrived
+let appState        = 'idle';
+let ws              = null;
+let audioCtx        = null;
+let micStreamObj    = null;
+let processorNode   = null;
+let sessionReady    = false;
+let pendingToolCalls = new Map();
+let nextPlayTime    = 0;
+let activeSources   = [];
+let sessionStart    = null;
+let timerInterval   = null;
+let toastTimeout    = null;
+let pendingAgentEl  = null;
+let speakingStartTime = 0;
+let sheetOpen       = false;
 
 // ─────────────────────────────────────────────
 // STATE MACHINE
 // ─────────────────────────────────────────────
-const STATES = {
-  idle:       { pipClass: '',      status: 'STANDBY',    ctrl: 'Press to begin session',      btn: 'Start',     btnClass: '' },
-  connecting: { pipClass: 'amber', status: 'RINGING',    ctrl: 'Calling Pete...',             btn: 'Ringing',   btnClass: 'ringing' },
-  ready:      { pipClass: 'green', status: 'READY',      ctrl: 'Session live — speak freely', btn: 'Live',      btnClass: 'live' },
-  listening:  { pipClass: 'red',   status: 'LISTENING',  ctrl: 'Listening...',                btn: 'Live',      btnClass: 'active' },
-  processing: { pipClass: 'amber', status: 'PROCESSING', ctrl: 'Processing...',               btn: 'Wait',      btnClass: 'processing' },
-  speaking:   { pipClass: 'green', status: 'SPEAKING',   ctrl: 'Pete is speaking...',         btn: 'Live',      btnClass: 'live' },
-  error:      { pipClass: '',      status: 'ERROR',      ctrl: 'Connection lost. Press retry.',btn: 'Retry',    btnClass: '' },
-};
-
 function setState(s) {
   appState = s;
-  const c = STATES[s] || STATES.idle;
-  pip.className = 'status-pip ' + c.pipClass;
-  statusTxt.textContent = c.status;
-  ctrlStatus.textContent = c.ctrl;
-  btnLbl.textContent = c.btn;
-  micBtn.className = 'mic-btn ' + c.btnClass;
-  micBtn.disabled = s === 'connecting';
-  const active = !['idle','connecting','error'].includes(s);
-  endBtn.className = 'end-btn' + (active ? ' visible' : '');
+
+  switch (s) {
+
+    case 'idle':
+      callBtn.className   = 'call-btn';
+      callBtn.disabled    = false;
+      callLabel.textContent = 'CALL PETE';
+      btnIcon.innerHTML   = PHONE_OUT;
+      credentials.classList.remove('hidden');
+      timerBlock.classList.remove('show');
+      transcriptTrigger.classList.remove('show');
+      avatarRing.classList.remove('speaking');
+      audioBars.classList.remove('active');
+      // Reset avatar
+      avatarImg.classList.remove('show');
+      avatarPlaceholder.classList.remove('hide');
+      break;
+
+    case 'connecting':
+      callBtn.className   = 'call-btn end ringing';
+      callBtn.disabled    = false;
+      callLabel.textContent = 'CONNECTING...';
+      btnIcon.innerHTML   = PHONE_DOWN;
+      credentials.classList.add('hidden');
+      timerBlock.classList.add('show');
+      timerDigits.textContent = '--:--';
+      sDot.className = 's-dot amber';
+      sTxt.textContent = 'DIALING...';
+      transcriptTrigger.classList.remove('show');
+      break;
+
+    case 'ready':
+      callBtn.className   = 'call-btn end';
+      callBtn.disabled    = false;
+      callLabel.textContent = 'END CALL';
+      btnIcon.innerHTML   = PHONE_DOWN;
+      sDot.className = 's-dot green';
+      sTxt.textContent = 'CONNECTED';
+      transcriptTrigger.classList.add('show');
+      avatarRing.classList.remove('speaking');
+      audioBars.classList.remove('active');
+      footerLbl.textContent = 'PETE IS LISTENING...';
+      break;
+
+    case 'listening':
+      sDot.className = 's-dot green';
+      sTxt.textContent = 'CONNECTED';
+      avatarRing.classList.remove('speaking');
+      audioBars.classList.add('active');
+      footerLbl.textContent = 'PETE IS LISTENING...';
+      break;
+
+    case 'processing':
+      audioBars.classList.remove('active');
+      footerLbl.textContent = 'PROCESSING...';
+      break;
+
+    case 'speaking':
+      sDot.className = 's-dot red';
+      sTxt.textContent = 'PETE IS SPEAKING';
+      avatarRing.classList.add('speaking');
+      audioBars.classList.remove('active');
+      footerLbl.textContent = 'PETE IS SPEAKING...';
+      break;
+
+    case 'error':
+      callBtn.className   = 'call-btn';
+      callBtn.disabled    = false;
+      callLabel.textContent = 'RETRY';
+      btnIcon.innerHTML   = PHONE_OUT;
+      credentials.classList.remove('hidden');
+      timerBlock.classList.remove('show');
+      transcriptTrigger.classList.remove('show');
+      avatarRing.classList.remove('speaking');
+      audioBars.classList.remove('active');
+      closeSheet();
+      break;
+  }
 }
 
 // ─────────────────────────────────────────────
-// TRANSCRIPT PANEL — show/hide
+// SHEET OPEN / CLOSE
 // ─────────────────────────────────────────────
-function showTranscript() {
-  panelEl.style.display = 'flex';
-  // Double rAF so the browser registers display:flex before transitioning opacity
-  requestAnimationFrame(() => requestAnimationFrame(() => panelEl.classList.add('visible')));
+function openSheet() {
+  tSheet.classList.add('open');
+  transcriptTrigger.classList.remove('show');
+  sheetOpen = true;
+  transcript.scrollTop = transcript.scrollHeight;
 }
 
-function hideTranscript() {
-  panelEl.classList.remove('visible');
-  setTimeout(() => { panelEl.style.display = 'none'; }, 400);
+function closeSheet() {
+  tSheet.classList.remove('open');
+  if (sessionReady) transcriptTrigger.classList.add('show');
+  sheetOpen = false;
 }
 
 // ─────────────────────────────────────────────
-// F1 LIGHTS — Pete answered flash
+// AVATAR REVEAL (call connected)
+// ─────────────────────────────────────────────
+function revealAvatar() {
+  // Only cross-fade if a photo src has been provided
+  if (avatarImg.src && !avatarImg.src.endsWith('/')) {
+    avatarImg.classList.add('show');
+    avatarPlaceholder.classList.add('hide');
+  }
+}
+
+// ─────────────────────────────────────────────
+// F1 LIGHTS — "Pete answered" flash
 // ─────────────────────────────────────────────
 function flashLights() {
-  // All 5 on at once (Pete picked up), then all out after a beat
   lights.forEach(l => l.classList.add('on'));
   setTimeout(() => lights.forEach(l => l.classList.remove('on')), 350);
 }
@@ -581,25 +781,19 @@ function stopMic() {
 }
 
 function playChunk(b64) {
-  // Resume if the browser auto-suspended the AudioContext between turns
   if (audioCtx.state === 'suspended') audioCtx.resume();
-
   const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
   const i16   = new Int16Array(bytes.buffer);
   const f32   = new Float32Array(i16.length);
   for (let i = 0; i < i16.length; i++) f32[i] = i16[i] / 32768.0;
-
   const buf = audioCtx.createBuffer(1, f32.length, 24000);
   buf.getChannelData(0).set(f32);
-
   const src = audioCtx.createBufferSource();
   src.buffer = buf;
   src.connect(audioCtx.destination);
-
   const t = Math.max(audioCtx.currentTime + 0.02, nextPlayTime);
   src.start(t);
   nextPlayTime = t + buf.duration;
-
   activeSources.push(src);
   src.onended = () => { activeSources = activeSources.filter(n => n !== src); };
 }
@@ -623,10 +817,9 @@ function f32ToB64(f32) {
 }
 
 // ─────────────────────────────────────────────
-// TRANSCRIPT — streaming text
+// TRANSCRIPT
 // ─────────────────────────────────────────────
 function createMsgEl(role) {
-  if (emptyMsg && emptyMsg.parentNode) emptyMsg.remove();
   const div = document.createElement('div');
   div.className = 'msg ' + role;
   div.innerHTML =
@@ -650,10 +843,6 @@ function animateText(el, text) {
   transcript.scrollTop = transcript.scrollHeight;
 }
 
-function esc(t) {
-  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
 // ─────────────────────────────────────────────
 // TIMER
 // ─────────────────────────────────────────────
@@ -661,13 +850,16 @@ function startTimer() {
   sessionStart = Date.now();
   timerInterval = setInterval(() => {
     const s = Math.floor((Date.now() - sessionStart) / 1000);
-    timerEl.textContent = `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;
+    const m = Math.floor(s / 60);
+    timerDigits.textContent =
+      String(m).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
   }, 1000);
 }
+
 function stopTimer() {
   clearInterval(timerInterval);
   timerInterval = null;
-  timerEl.textContent = '';
+  timerDigits.textContent = '--:--';
 }
 
 // ─────────────────────────────────────────────
@@ -714,14 +906,13 @@ async function connect() {
     pendingAgentEl = null;
     lights.forEach(l => l.classList.remove('on'));
     if (appState !== 'idle') {
-      hideTranscript();
-      setTimeout(() => { transcript.innerHTML = ''; }, 450);
+      closeSheet();
+      setTimeout(() => { transcript.innerHTML = ''; }, 400);
       setState('error');
     }
   });
 
   ws.addEventListener('error', () => {
-    lights.forEach(l => l.classList.remove('on'));
     showToast('WebSocket connection error');
     setState('error');
   });
@@ -731,8 +922,9 @@ async function handleEvent(msg) {
   switch (msg.type) {
 
     case 'session.ready':
-      flashLights();       // all 5 on briefly — Pete answered
-      showTranscript();    // fade in transcript below controls
+      flashLights();
+      revealAvatar();
+      openSheet();           // auto-open transcript when Pete picks up
       sessionReady = true;
       startTimer();
       await startMic();
@@ -741,7 +933,6 @@ async function handleEvent(msg) {
 
     case 'input.speech.started':
       stopPlayback();
-      // Remove the empty placeholder label if it was never filled
       if (pendingAgentEl && !pendingAgentEl.textContent.trim()) {
         pendingAgentEl.closest('.msg')?.remove();
       }
@@ -761,7 +952,7 @@ async function handleEvent(msg) {
       if (appState !== 'speaking') {
         setState('speaking');
         pendingAgentEl = createMsgEl('agent');
-        pendingAgentEl.classList.add('thinking'); // pulsing dots until transcript arrives
+        pendingAgentEl.classList.add('thinking');
         speakingStartTime = audioCtx ? audioCtx.currentTime : 0;
       }
       playChunk(msg.data);
@@ -780,7 +971,6 @@ async function handleEvent(msg) {
       break;
 
     case 'reply.done':
-      // Remove any empty placeholder that never received a transcript
       if (pendingAgentEl && !pendingAgentEl.textContent.trim()) {
         pendingAgentEl.closest('.msg')?.remove();
         pendingAgentEl = null;
@@ -790,7 +980,6 @@ async function handleEvent(msg) {
         pendingAgentEl = null;
         stopPlayback();
       } else {
-        // Wait for any in-flight tool fetches before sending results
         const calls = [...pendingToolCalls.values()];
         pendingToolCalls.clear();
         if (calls.length) {
@@ -837,19 +1026,24 @@ async function callTool(name, args) {
 }
 
 // ─────────────────────────────────────────────
-// BUTTON HANDLERS
+// BUTTON HANDLER
 // ─────────────────────────────────────────────
-async function handleStart() {
-  if (appState === 'connecting') return;
+function handleCallBtn() {
   if (appState === 'idle' || appState === 'error') {
-    try {
-      ensureAudioCtx();
-      setState('connecting');
-      await connect();
-    } catch (e) {
-      showToast(e.message);
-      setState('error');
-    }
+    handleStart();
+  } else if (['ready', 'listening', 'processing', 'speaking'].includes(appState)) {
+    endSession();
+  }
+}
+
+async function handleStart() {
+  try {
+    ensureAudioCtx();
+    setState('connecting');
+    await connect();
+  } catch (e) {
+    showToast(e.message);
+    setState('error');
   }
 }
 
@@ -861,9 +1055,8 @@ function endSession() {
   pendingToolCalls.clear();
   pendingAgentEl = null;
   lights.forEach(l => l.classList.remove('on'));
-  hideTranscript();
-  // Clear transcript content after panel fades out
-  setTimeout(() => { transcript.innerHTML = ''; }, 450);
+  closeSheet();
+  setTimeout(() => { transcript.innerHTML = ''; }, 400);
   if (ws) { ws.close(); ws = null; }
   setState('idle');
 }
