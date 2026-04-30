@@ -285,14 +285,14 @@
       /* In document flow — opening pushes call controls up */
       width: 100%;
       overflow: hidden;
-      max-height: 0;
-      transition: max-height 0.42s cubic-bezier(0.32, 0.72, 0, 1);
+      height: 0;
+      transition: height 0.42s cubic-bezier(0.32, 0.72, 0, 1);
       background: var(--panel);
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
     }
-    .t-sheet.open { max-height: 300px; }
+    .t-sheet.open { height: 280px; }
 
     /* Red accent stripe */
     .sheet-stripe { height: 3px; background: var(--red); flex-shrink: 0; }
