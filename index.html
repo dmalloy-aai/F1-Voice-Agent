@@ -28,7 +28,7 @@
     html, body { height: 100%; }
 
     body {
-      background: #111;
+      background: var(--cream);
       font-family: var(--mono);
       display: flex;
       align-items: center;
@@ -50,7 +50,7 @@
     }
 
     @media (min-height: 680px) and (min-width: 440px) {
-      .card { min-height: 680px; box-shadow: 0 0 60px rgba(0,0,0,0.5); }
+      .card { min-height: 680px; }
     }
 
     /* ── HEADER ── */
@@ -159,7 +159,7 @@
 
     .timer-digits {
       font-family: var(--mono);
-      font-size: clamp(52px, 13vw, 64px);
+      font-size: clamp(28px, 7vw, 34px);
       font-weight: 600;
       letter-spacing: -0.02em;
       color: var(--black);
@@ -292,14 +292,16 @@
     /* ── TRANSCRIPT SHEET ── */
     .t-sheet {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
+      left: 0; right: 0;
+      /* Sits above call controls so they're never obscured */
+      bottom: 138px;
       background: var(--panel);
       transform: translateY(100%);
       transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex;
       flex-direction: column;
-      max-height: 54%;
-      min-height: 180px;
+      max-height: 46%;
+      min-height: 160px;
       z-index: 10;
     }
     .t-sheet.open { transform: translateY(0); }
@@ -450,12 +452,7 @@
   <div class="avatar-section">
     <div class="avatar-ring" id="avatarRing">
       <div class="avatar-placeholder" id="avatarPlaceholder"></div>
-      <!--
-        To add Pete's photo: set the src below and it will cross-fade in
-        when the call connects. Recommended: ~400×400px, cropped to face.
-        Example: <img class="avatar-img" id="avatarImg" src="pete.jpg" alt="Pit Lane Pete">
-      -->
-      <img class="avatar-img" id="avatarImg" src="" alt="Pit Lane Pete">
+      <img class="avatar-img" id="avatarImg" src="pete.png" alt="Pit Lane Pete">
     </div>
   </div>
 
@@ -924,7 +921,6 @@ async function handleEvent(msg) {
     case 'session.ready':
       flashLights();
       revealAvatar();
-      openSheet();           // auto-open transcript when Pete picks up
       sessionReady = true;
       startTimer();
       await startMic();
