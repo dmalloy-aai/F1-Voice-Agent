@@ -473,10 +473,10 @@
     <span class="call-label" id="callLabel">CALL PETE</span>
   </div>
 
-  <!-- Read transcript trigger (shown in-call, before sheet opens) -->
-  <button class="t-trigger" id="transcriptTrigger" onclick="openSheet()">
-    <span class="t-chevron">&#8963; &#8963;</span>
-    <span class="t-label">Read Transcript</span>
+  <!-- Transcript trigger (shown in-call, toggles sheet open/closed) -->
+  <button class="t-trigger" id="transcriptTrigger" onclick="toggleSheet()">
+    <span class="t-chevron" id="tChevron">&#8963; &#8963;</span>
+    <span class="t-label" id="tLabel">Read Transcript</span>
   </button>
 
   <!-- Invisible F1 lights — kept for JS flash logic -->
@@ -586,6 +586,8 @@ const avatarRing        = document.getElementById('avatarRing');
 const avatarImg         = document.getElementById('avatarImg');
 const avatarPlaceholder = document.getElementById('avatarPlaceholder');
 const transcriptTrigger = document.getElementById('transcriptTrigger');
+const tChevron          = document.getElementById('tChevron');
+const tLabel            = document.getElementById('tLabel');
 const tSheet            = document.getElementById('tSheet');
 const transcript        = document.getElementById('transcript');
 const audioBars         = document.getElementById('audioBars');
@@ -703,15 +705,22 @@ function setState(s) {
 // ─────────────────────────────────────────────
 function openSheet() {
   tSheet.classList.add('open');
-  transcriptTrigger.classList.remove('show');
+  tChevron.innerHTML = '&#8964; &#8964;';
+  tLabel.textContent = 'Close Transcript';
   sheetOpen = true;
   transcript.scrollTop = transcript.scrollHeight;
 }
 
 function closeSheet() {
   tSheet.classList.remove('open');
-  if (sessionReady) transcriptTrigger.classList.add('show');
+  tChevron.innerHTML = '&#8963; &#8963;';
+  tLabel.textContent = 'Read Transcript';
   sheetOpen = false;
+}
+
+function toggleSheet() {
+  if (sheetOpen) closeSheet();
+  else openSheet();
 }
 
 // ─────────────────────────────────────────────
