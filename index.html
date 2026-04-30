@@ -191,11 +191,6 @@
       gap: 10px;
       padding: 22px 0 18px;
       flex-shrink: 0;
-      /* Sit above the transcript sheet */
-      position: relative;
-      z-index: 20;
-      background: var(--cream);
-      width: 100%;
     }
 
     .call-btn {
@@ -262,12 +257,8 @@
       transition: opacity 0.2s;
       flex-shrink: 0;
       border: none;
-      background: var(--cream);
+      background: none;
       font-family: var(--mono);
-      width: 100%;
-      /* Sit above the transcript sheet */
-      position: relative;
-      z-index: 20;
     }
     .t-trigger:hover { opacity: 0.75; }
     .t-trigger.show  { display: flex; }
@@ -292,13 +283,14 @@
     /* ── TRANSCRIPT SHEET ── */
     .t-sheet {
       position: absolute;
-      bottom: 0; left: 0; right: 0;
+      /* Anchored above call controls so it never overlaps them */
+      bottom: 140px; left: 0; right: 0;
       background: var(--panel);
-      transform: translateY(100%);
+      /* Closed: translateY pushes it down past controls AND off-screen */
+      transform: translateY(calc(100% + 140px));
       transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex;
       flex-direction: column;
-      /* Sheet slides up behind call controls — controls sit on top via z-index */
       max-height: 44%;
       min-height: 160px;
       z-index: 10;
