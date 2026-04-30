@@ -125,7 +125,7 @@
       justify-content: center;
       padding: 24px 36px 0;
       width: 100%;
-      min-height: 120px;
+      min-height: 60px;
     }
 
     /* Credentials (pre-call) */
@@ -282,20 +282,17 @@
 
     /* ── TRANSCRIPT SHEET ── */
     .t-sheet {
-      position: absolute;
-      /* Anchored above call controls so it never overlaps them */
-      bottom: 140px; left: 0; right: 0;
+      /* In document flow — opening pushes call controls up */
+      width: 100%;
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.42s cubic-bezier(0.32, 0.72, 0, 1);
       background: var(--panel);
-      /* Closed: translateY pushes it down past controls AND off-screen */
-      transform: translateY(calc(100% + 140px));
-      transition: transform 0.38s cubic-bezier(0.32, 0.72, 0, 1);
       display: flex;
       flex-direction: column;
-      max-height: 44%;
-      min-height: 160px;
-      z-index: 10;
+      flex-shrink: 0;
     }
-    .t-sheet.open { transform: translateY(0); }
+    .t-sheet.open { max-height: 300px; }
 
     /* Red accent stripe */
     .sheet-stripe { height: 3px; background: var(--red); flex-shrink: 0; }
