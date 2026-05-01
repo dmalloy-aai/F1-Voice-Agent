@@ -1175,7 +1175,9 @@ async function connect() {
   if (!resp.ok) throw new Error('Token request failed: ' + resp.status);
   const { token } = await resp.json();
 
-  ws = new WebSocket(`wss://agents.assemblyai.com/v1/voice?token=${encodeURIComponent(token)}`);
+  const wsUrl = new URL('wss://agents.assemblyai.com/v1/ws');
+  wsUrl.searchParams.set('token', token);
+  ws = new WebSocket(wsUrl);
 
   ws.addEventListener('open', () => {
     ws.send(JSON.stringify({
