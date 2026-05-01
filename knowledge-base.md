@@ -158,21 +158,29 @@ The regulations mandate:
 
 ### Active Aerodynamics: Corner Mode and Straight Mode
 
-The headline aerodynamic innovation of the 2026 regulations is a mandatory **active aerodynamics system**. Both the front and rear wing elements are moveable, controlled by the car's onboard systems and the driver. There are two primary modes:
+The headline aerodynamic innovation of the 2026 regulations is a mandatory **active aerodynamics system**. Both the front and rear wing elements are physically moveable — they actually change position on the car, controlled by the FIA Standard ECU, and can also be triggered by the driver. **The wings move. This is not metaphorical. This is a mechanical actuation system.** There are two primary modes:
 
 **Corner Mode (formerly "Z-Mode")**
-This is the high-downforce configuration. At lower speeds — in corners, chicanes, and slow sections — the front and rear wing elements angle to maximum attack, generating maximum grip. This is effectively the "default" aerodynamic state of the car when cornering.
+This is the high-downforce configuration and **the default state of the car at all times**. The rear wing — which now has three elements (the lower beam wing was removed in 2026) — and the front wing's two active flaps angle to maximum attack, generating maximum grip through slow sections, chicanes, and corners. The car is always in Corner Mode unless explicitly switched to Straight Mode.
 
 **Straight Mode (formerly "X-Mode")**
-This is the low-drag configuration. Above a defined speed threshold on straights, the front and rear wing elements flatten automatically, cutting drag dramatically and allowing the car to reach higher top speeds. The system activates automatically — drivers do not need to press a button as they did with DRS.
+This is the low-drag configuration. In designated Active Aero Zones on each circuit, drivers can manually switch to Straight Mode — the front and rear wing elements physically flatten out, cutting drag sharply and allowing higher top speeds. The front wing's two flaps flatten, and the rear wing's three elements rotate toward a flat/low-drag angle. The transition between modes must complete within 400 milliseconds (0.4 seconds), enforced by regulation. Actuation is electrical; the ECU logs every wing position change, fully monitorable by FIA technical delegates.
 
-The FIA originally used the terms "X-Mode" and "Z-Mode" but determined these were confusing for fans and renamed them "Straight Mode" and "Corner Mode" before the 2026 season started. The transition is seamless and automatic, governed by GPS position on circuit and vehicle speed.
+**Key difference from DRS:** Straight Mode is available to every driver on every lap in the designated zones — not only to a driver within one second of the car ahead. There are more Straight Mode zones per circuit than there were DRS zones. At the Australian GP, drivers had five designated Straight Mode zones (DRS typically had two or three). Drivers do not need to be chasing another car to use it.
+
+**Partial Aero Mode (wet/poor conditions):** A third option exists, added to the regulations at the end of 2025. In poor conditions — wet weather, low visibility — the FIA can designate "partial active aero," in which only the **front wing** adopts Straight Mode while the **rear wing remains in Corner Mode**. This limits torque at the rear wheels and improves stability. This is a safety configuration, not a performance one.
+
+**How the front and rear wings move together:** The front and rear wings are co-ordinated — they transition simultaneously to maintain car balance. Teams set a specific aerodynamic balance target for each mode, and the ECU manages the synchronisation. The wings do not move independently in normal operation.
+
+**Teams' design freedom within the rules:** The regulations specify the permitted rotation envelope for each wing element and the 400ms transition limit, but leave teams significant freedom in how they achieve the movement. Ferrari, for example, debuted a rear wing in which the upper element rotates more than 180 degrees — literally flipping upside down in Straight Mode — creating a larger slot gap and further drag reduction. Known informally as the "Macarena wing," it is legal because the regulations place no upper limit on the angle of rotation, only a time limit. Other teams use more conventional pivot-and-flatten mechanisms.
+
+The FIA originally used the terms "X-Mode" and "Z-Mode" but determined these were confusing for fans and renamed them "Straight Mode" and "Corner Mode" before the 2026 season started.
 
 ### Why Active Aero Replaces DRS
 
-DRS (Drag Reduction System), used from 2011 to 2025, allowed a following driver within one second of a car ahead to open a flap on the rear wing, reducing drag and gaining a speed advantage of approximately 10-15km/h. While effective at enabling overtaking, DRS was often criticised for making passes feel artificial — a "free" overtake rather than an earned one.
+DRS (Drag Reduction System), used from 2011 to 2025, allowed a following driver within one second of a car ahead to open a single flap on the rear wing, reducing drag and gaining a speed advantage of approximately 10-15km/h. Only the rear wing moved. Only the pursuing driver could use it. Only in specific zones. While effective at enabling overtaking, DRS was often criticised for making passes feel artificial — a "free" overtake rather than an earned one.
 
-Active aerodynamics is intended to be a more holistic replacement. Because every car's wing automatically flattens on straights, the drag reduction is universal, not just available to the pursuing driver. The overtaking advantage for the chasing driver instead comes from **Overtake Mode** (see Energy Management section).
+Active aerodynamics replaces this with a system where **both** front and rear wings move, **all** drivers can use it, and there are **more** zones per lap. The drag reduction is universal — it is a performance aid for everyone, not an overtaking mechanism. Because every car can flatten its wings on a straight regardless of gap, the targeted overtaking advantage for the chasing driver comes separately from **Overtake Mode** (see Energy Management section) — a power boost, not a mechanical wing movement.
 
 ---
 
@@ -361,7 +369,14 @@ The 2026 season marks the first time Formula 1 has had **11 constructor entries*
 
 ### No DRS
 
-DRS has been completely removed from the sporting regulations. Its replacement, Overtake Mode (activated when within one second of the car ahead), is governed by the technical regulations and operated differently — it is a power boost rather than a mechanical drag reduction device.
+DRS has been completely removed from the sporting regulations. Its replacement as an **overtaking tool** is Overtake Mode (activated when within one second of the car ahead) — a power boost, not a mechanical wing movement.
+
+**⚠️ WING MOVEMENT ALERT — DO NOT CONFLATE DRS REMOVAL WITH WINGS BEING STATIC:**
+The rear wing **still moves** in 2026. It moves constantly and actively throughout every lap. The difference is *how* and *why*:
+- **DRS (2011–2025):** One rear wing flap could be opened by the *pursuing driver only*, in specific zones, when within one second of the car ahead. It was a targeted overtaking advantage, rear wing only.
+- **Active Aero (2026–):** *Both* front and rear wings move for *every* driver on *every* lap in designated Active Aero Zones. The wings flatten in Straight Mode (low drag, high speed) and return to high-angle Corner Mode (high downforce, grip) through corners. This is not an overtaking system — it is a lap-wide performance system available to all cars. It replaces DRS structurally but is not its direct functional equivalent.
+
+When someone asks "do the rear wings still move?" — **yes, they move more than ever, more often, and on every car.** What's gone is the asymmetric, gap-dependent, pursuing-driver-only flap. The wings themselves are alive.
 
 ### Race Starts (Under Review, Miami 2026)
 
