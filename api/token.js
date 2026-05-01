@@ -1,6 +1,19 @@
 const https = require("https");
 
+const ALLOWED_HOSTS = [
+  "pit-lane-pete.vercel.app",
+  "www.assemblyai.com",
+  "localhost",
+  "127.0.0.1",
+];
+
 module.exports = (req, res) => {
+  // Block requests not originating from an allowed host
+  const origin = req.headers.origin || req.headers.referer || "";
+  if (!ALLOWED_HOSTS.some((host) => origin.includes(host))) {
+    return res.status(403).json({ error: "Forbidden" });
+  }
+
   const apiKey = process.env.ASSEMBLYAI_API_KEY;
   if (!apiKey) {
     return res.status(401).json({ error: "ASSEMBLYAI_API_KEY not configured on server." });
