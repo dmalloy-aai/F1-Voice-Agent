@@ -1,6 +1,84 @@
 # 2026 Formula 1 Regulations — Comprehensive Knowledge Base
 *For use as a Voice Agent foundational knowledge document*
-*Last updated: April 2026 — includes post-season-opening refinements*
+*Last updated: April 30, 2026 — includes post-season-opening refinements*
+
+---
+
+## CURRENT DATE & SEASON STATUS — READ THIS FIRST
+
+**Today's date: April 30, 2026.**
+
+The 2026 Formula 1 season is three races old. It is NOT 2024. It is NOT 2025. The current year is **2026** and the season is underway.
+
+### Races Completed (3 of 22)
+- **Round 1 — Australian GP** (Albert Park, March 8): ✅ DONE. Winner: George Russell (Mercedes).
+- **Round 2 — Chinese GP** (Shanghai, March 15): ✅ DONE. Sprint weekend. Winner: Kimi Antonelli (Mercedes).
+- **Round 3 — Japanese GP** (Suzuka, March 29): ✅ DONE. Winner: Kimi Antonelli (Mercedes). Oliver Bearman suffered a 50G crash at Spoon Curve on Lap 20 — the incident that directly triggered the April 2026 regulatory changes.
+
+### Calendar Gap: Canceled Races — NOT Replaced
+The original 2026 calendar had 24 races. Two were **permanently canceled** (not postponed, not replaced) due to the Iran–Gulf conflict:
+- **Bahrain GP** (April 12) — CANCELED
+- **Saudi Arabian GP** (April 19) — CANCELED
+
+F1 officially confirmed both cancellations before the Chinese GP. Alternative venues were considered but abandoned as impractical at short notice. The calendar dropped to **22 races**, creating a **five-week gap** between Japan (March 29) and Miami (May 3). No replacement race was added. The season runs to 22 rounds.
+
+### Next Race: Miami GP — May 3, 2026 (4 days away)
+Miami International Autodrome. Sprint weekend (Saturday sprint race + Sunday GP). **This is the first race where the April 20 regulatory refinements take effect.** The changes have been agreed unanimously but have not been raced yet — Miami is the debut.
+
+### Championship Standings After Round 3 (Japanese GP)
+
+**Drivers:**
+1. Kimi Antonelli (Mercedes) — 72 pts
+2. George Russell (Mercedes) — 63 pts
+3. Charles Leclerc (Ferrari) — 49 pts
+4. Lewis Hamilton (Ferrari) — 41 pts
+5. Lando Norris (McLaren) — 25 pts
+6. Oscar Piastri (McLaren) — 21 pts
+7. Oliver Bearman (Haas) — 17 pts *(crashed Japan, expected fit for Miami)*
+8. Pierre Gasly (Alpine) — 15 pts
+9. Max Verstappen (Red Bull) — 12 pts *(started P20 in both Australia and Japan)*
+10. Liam Lawson (Racing Bulls) — 10 pts
+
+**Constructors:**
+1. Mercedes — 135 pts
+2. Ferrari — 90 pts
+3. McLaren — 46 pts
+4. Haas — 18 pts
+5. Alpine — 16 pts
+6. Red Bull — 16 pts
+7. Racing Bulls — 14 pts
+8. Audi — 2 pts
+9. Williams — 2 pts
+10. Cadillac — 0 pts (debut season)
+11. Aston Martin — 0 pts (severe PU issues)
+
+### April Regulatory Changes: Agreed, Not Yet Raced
+The April 20 package was agreed unanimously. It takes effect at Miami (May 3). As of today, April 30, **the changes are law but have not been applied in a race yet.** Miami is the first test.
+
+### Rest of the 2026 Season Calendar
+| Rd | Race | Circuit | Date | Notes |
+|---|---|---|---|---|
+| 4 | Miami GP | Miami International Autodrome | May 3 | NEXT — Sprint weekend |
+| 5 | Canadian GP | Circuit Gilles Villeneuve | May 24 | Sprint |
+| 6 | Monaco GP | Circuit de Monaco | June 7 | — |
+| 7 | Spanish GP | Barcelona | June 14 | — |
+| 8 | Austrian GP | Red Bull Ring | June 28 | — |
+| 9 | British GP | Silverstone | July 5 | Sprint |
+| 10 | Belgian GP | Spa-Francorchamps | July 19 | — |
+| 11 | Hungarian GP | Hungaroring | July 26 | — |
+| 12 | Dutch GP | Zandvoort | August 23 | Sprint |
+| 13 | Italian GP | Monza | September 6 | — |
+| 14 | Spanish GP (Madrid) | Madrid Street Circuit | September 13 | **NEW CIRCUIT DEBUT** |
+| 15 | Azerbaijan GP | Baku | September 26 | — |
+| 16 | Singapore GP | Marina Bay | October 11 | Sprint |
+| 17 | United States GP | COTA, Austin | October 25 | — |
+| 18 | Mexico City GP | Autódromo Hermanos Rodríguez | November 1 | — |
+| 19 | São Paulo GP | Interlagos | November 8 | — |
+| 20 | Las Vegas GP | Las Vegas Strip | November 21 | — |
+| 21 | Qatar GP | Lusail | November 29 | — |
+| 22 | Abu Dhabi GP | Yas Marina | December 6 | Season finale |
+
+Sprint weekends: Miami, Canada, Great Britain, Netherlands, Singapore (6 total for the season including China already done). Madrid is a brand-new street circuit making its F1 debut. Imola/Emilia-Romagna dropped from 2025 calendar.
 
 ---
 
@@ -307,12 +385,20 @@ With 22 cars on the grid, the points-paying positions remain the top 10, unchang
 
 ## 9. Power Unit Suppliers & Team Alignments {#teams}
 
-Five power unit manufacturers supply ten (soon eleven) teams in 2026. The landscape has been completely reshuffled from the 2025 season.
+Five power unit manufacturers supply eleven teams in 2026. The power unit landscape was completely reshuffled from 2025. **Renault no longer supplies any team in 2026** — this is a major change from recent seasons. Alpine, formerly a Renault works team using Renault power, switched to Mercedes customer power for 2026.
+
+### Quick Reference — Who Uses What Engine in 2026
+- **Mercedes PU:** Mercedes, McLaren, Williams, Alpine (4 teams)
+- **Ferrari PU:** Ferrari, Haas, Cadillac (3 teams)
+- **Red Bull Powertrains / Ford PU:** Red Bull Racing, Racing Bulls (2 teams)
+- **Honda / HRC PU:** Aston Martin (1 team, works deal)
+- **Audi PU:** Audi / formerly Sauber (1 team, works)
+- **Renault PU:** NOBODY — Renault exited F1 as a PU supplier after 2025
 
 ### Mercedes Power Unit
 **Teams:** Mercedes (works), McLaren, Williams, Alpine
 
-Mercedes retains the largest customer base. Notably, McLaren — the 2024 Constructors' Champions — remain Mercedes-powered.
+Mercedes retains the largest customer base with four teams. Alpine's switch from Renault to Mercedes was one of the most significant supply changes of the new era. McLaren — the 2024 Constructors' Champions — remain Mercedes-powered.
 
 ### Ferrari Power Unit
 **Teams:** Ferrari (works), Haas, Cadillac
@@ -333,6 +419,9 @@ Honda returned as a fully-fledged works manufacturer in 2026, exclusively partne
 **Teams:** Audi (works, formerly Sauber/Alfa Romeo)
 
 Audi completed its takeover of the Sauber Group (formerly operating as Alfa Romeo Racing) and became a full constructor and power unit manufacturer for 2026. This is Audi's first entry as a works Formula 1 constructor.
+
+### Renault — No Longer a PU Supplier
+Renault supplied Alpine (as a works team) through 2025 but withdrew as a power unit manufacturer ahead of 2026. Alpine rebranded from a Renault works operation to a Mercedes customer. Anyone who says Alpine uses Renault in 2026 is wrong — that ended after 2025.
 
 ---
 
@@ -812,7 +901,35 @@ Original 24-race calendar reduced to 22 after Bahrain and Saudi Arabia were canc
 ## 2026 Season — Key Incidents & Storylines {#incidents}
 
 ### The Bearman/Colapinto Speed Differential Crash (Japan, Lap 20)
-The defining safety incident of the early season. The 2026 power units require drivers to alternate between "deployment" (full MGU-K boost) and "harvesting" (energy recovery, causing significant deceleration). At Suzuka's Spoon Curve, Bearman (deploying) encountered Colapinto's Alpine (harvesting) at a closing speed of ~50 km/h. Bearman was pushed onto the grass at ~190 mph and hit barriers at 50G. He walked away unhurt. Drivers had formally warned FIA stewards about this issue the Friday before the race. Verstappen post-race: "These cars are not correct. It's super frustrating. You have absolutely no idea what the guy in front is doing at any given moment." Toto Wolff: "This cannot happen again." FIA held emergency meetings April 9, 15, 16, 20; result: MGU-K boost button capped at 150 kW (from 350 kW) from Miami onwards.
+The defining safety incident of the early season and the **direct trigger for the April 2026 regulatory changes**.
+
+**What happened:** Lap 20, Spoon Curve, Suzuka. Bearman (Haas, Car 87) was in full MGU-K deployment mode. Colapinto (Alpine, Car 43) ahead was in active harvesting mode — meaning his car was decelerating involuntarily despite having throttle open, because the Alpine's energy strategy required it to recover charge at that point on the lap. Colapinto was not within one second of the car ahead, so Alpine's Overtake Mode was unavailable to him. He had no power to accelerate or close any gap. The closing speed between the two cars was approximately **48–53 km/h** (Bearman described it as "50 kph"). Bearman's left-front hit Colapinto's rear-right. Bearman was pitched onto the grass at ~190 mph and hit the barriers at **50G peak force**. He walked away with a bruised knee. His HANS device and HALO worked exactly as designed. Colapinto continued but pitted with rear damage; he was classified P11.
+
+**Why it was nobody's fault — and why that was the problem:** Stewards reviewed all telemetry. Both drivers were operating entirely within the 2026 regulations. Neither was penalised. Stewards' Document 11 forwarded the telemetry evidence directly to FIA Sporting and Technical departments as evidence for the emergency MGU-K review.
+
+**The GPDA had warned this would happen:** The Grand Prix Drivers' Association formally submitted a written warning to FIA stewards on **March 27** — two days before the race — specifically about the risk of speed differential collisions caused by deployment/harvesting mode switches. The FIA acknowledged the warning. The crash happened on Lap 20 of the very next race.
+
+**Direct causal chain from crash to regulation changes:**
+1. March 29 (Japan race day): Crash at Spoon Curve. FIA Race Director opens emergency MGU-K review.
+2. April 9: Emergency FIA meeting with team technical directors and PU manufacturer representatives. Six potential regulatory fixes identified.
+3. April 15: FIA follow-up meeting on sporting regulation changes.
+4. April 16: Technical working group meeting on implementation.
+5. April 20: High-level meeting — FIA + all 10 Team Principals + all PU manufacturer CEOs + FOM. Package agreed **unanimously**. Result: MGU-K peak deployment rate capped at **150 kW** (from 350 kW) from Miami onwards. Energy per lap reduced from 8MJ to 7MJ. Superclip durations shortened. Wet conditions ERS limits added. All changes take effect at Miami (May 3, 2026).
+
+**Key quotes after the crash:**
+- Verstappen: *"These cars are not correct. It's super frustrating. You have absolutely no idea what the guy in front is doing at any given moment."*
+- Toto Wolff: *"This cannot happen again."*
+- Haas team principal Ayao Komatsu: *"F1 cannot ignore 2026 risks."*
+- Bearman (on Colapinto): *"I was really not happy with what he did."* (Stewards disagreed — Colapinto was blameless.)
+- Colapinto: *"I never moved or anything like that."*
+
+**Verstappen's Japan qualifying crash (same weekend):** Verstappen crashed at 130R in qualifying — Red Bull submitted data showing an active aero load spike caused rear suspension failure. No penalty to driver; FIA issued a mandatory Technical Directive to all teams on active aero load management through high-speed corners, with updated software parameters due to FIA by April 5.
+
+### McLaren's China Double DNS
+Both McLarens failed to start the Chinese GP — the first time any team suffered a double DNS in modern F1. Two separate Mercedes HPP battery failures: Norris lost ICE-hybrid comms, Piastri's battery failed to restart. First time in Norris's 8-season career he missed a race start. McLaren admitted they are "on the back foot" understanding the new 2026 power unit compared to the works Mercedes team.
+
+### Bahrain and Saudi GP Cancellations — No Replacement Races
+F1 confirmed both Middle East rounds permanently cancelled following the Iran–Gulf conflict. Gulf states were struck by Iranian attacks in retaliation for US-Israeli airstrikes. Calendar dropped from 24 to **22 races**, creating a **five-week gap** (March 29 to May 3). Alternative venues were explored but F1 concluded no replacement races could be organised at sufficient short notice. **No replacement races were added to the calendar.** The 22-race calendar stands as final.
 
 ### McLaren's China Double DNS
 Both McLarens failed to start the Chinese GP — the first time any team suffered a double DNS in modern F1. Two separate Mercedes HPP battery failures: Norris lost ICE-hybrid comms, Piastri's battery failed to restart. First time in Norris's 8-season career he missed a race start. McLaren admitted they are "on the back foot" understanding the new 2026 power unit compared to the works Mercedes team.
@@ -838,7 +955,7 @@ Two-time (or more) champion Verstappen started last in both Australia (crashed o
 
 ### Overperforming / Surprises
 
-**Kimi Antonelli (Mercedes):** The story of the season. 19 years old, two wins (China, Japan), championship leader. Youngest F1 pole-sitter ever (broke Vettel's 2008 record). First teenager with back-to-back wins. Youngest championship leader in history at 19 years, 216 days. Italy's first title contender since Ascari 1953. Calm, methodical, devastatingly fast — his charge from 6th on Lap 1 at Suzuka to race win was the moment of the season so far.
+**Kimi Antonelli (Mercedes):** Always referred to as Kimi Antonelli — never "Andrea" or "Andrea Antonelli" (Andrea is his legal first name but he has never been called that in motorsport; he is Kimi, always). The story of the season. 19 years old, two wins (China, Japan), championship leader. Youngest F1 pole-sitter ever (broke Vettel's 2008 record). First teenager with back-to-back wins. Youngest championship leader in history at 19 years, 216 days. Italy's first title contender since Ascari 1953. Calm, methodical, devastatingly fast — his charge from 6th on Lap 1 at Suzuka to race win was the moment of the season so far.
 
 **George Russell (Mercedes):** Won Australia, strong consistency across all three rounds. Experienced head of the championship-leading team, now being pushed hard by his 19-year-old teammate.
 
