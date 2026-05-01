@@ -1227,7 +1227,7 @@ async function handleEvent(msg) {
       flashLights();
       sessionReady = true;
       startTimer();
-      startSilenceTimer();
+      // Don't start silence timer yet — wait for greeting to finish (reply.done)
       await startMic();
       setState('ready');
       break;
@@ -1238,7 +1238,7 @@ async function handleEvent(msg) {
         pendingAgentEl.closest('.msg')?.remove();
       }
       pendingAgentEl = null;
-      resetSilenceTimer();
+      stopSilenceTimer(); // User is speaking — don't count this as silence
       setState('listening');
       break;
 
@@ -1256,7 +1256,7 @@ async function handleEvent(msg) {
         pendingAgentEl = createMsgEl('agent');
         pendingAgentEl.classList.add('thinking');
         speakingStartTime = audioCtx ? audioCtx.currentTime : 0;
-        resetSilenceTimer();
+        stopSilenceTimer(); // Agent is speaking — stop the timer entirely
       }
       playChunk(msg.data);
       break;
@@ -1291,6 +1291,8 @@ async function handleEvent(msg) {
               results.forEach(r => ws.send(JSON.stringify(r)));
           });
         }
+        // Agent finished speaking — NOW start counting user silence
+        startSilenceTimer();
       }
       setState(sessionReady ? 'ready' : 'idle');
       break;
