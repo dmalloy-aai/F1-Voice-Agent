@@ -1185,6 +1185,12 @@ async function connect() {
       session: {
         system_prompt: SYSTEM_PROMPT,
         greeting: GREETING,
+        input: {
+          turn_detection: {
+            vad_threshold: 0.7,
+            min_silence: 800,
+          }
+        },
         output: { voice: 'victor' },
         tools: TOOLS,
       }
